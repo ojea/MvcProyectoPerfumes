@@ -1,5 +1,9 @@
 ﻿@model Usuario
-
+<style>
+    body {
+        background-color: lavender; /* Puedes ajustar el color según tus preferencias */
+    }
+</style>
 
 <!-- Section: Design Block -->
 <section class="text-center">
@@ -14,26 +18,29 @@
 
     <div class="card mx-4 mx-md-5 shadow-5-strong" style="
         margin-top: -100px;
-        background: hsla(0, 0%, 100%, 0.8);
+        background: hsla(0, 0%, 100%, 0.2);
         backdrop-filter: blur(30px);
         ">
         <div class="card-body py-5 px-md-5">
 
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-8">
-                    <h2 class="fw-bold mb-5">Sign up now</h2>
+                    <h2 class="fw-bold mb-5" style="color:lavender">Iniciar sesión</h2>
                     <form method="post">
                         <!-- Email input -->
                         <div class="form-outline mb-4">
                             <input type="email" name="email" class="form-control" />
-                            <label class="form-label" for="form2Example1">Email address</label>
+                            <label class="form-label" for="email">Email address</label>
                         </div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-4">
                             <input type="password" name="password" class="form-control" />
-                            <label class="form-label" for="form2Example2">Password</label>
+                            <label class="form-label" for="password">Password</label>
                         </div>
+
+                        <!-- Submit button -->
+                        <button  class="btn btn-outline-dark btn-block mb-4">Iniciar sesion</button>
 
                         @if (Model != null)
                         {
@@ -47,13 +54,9 @@
                             </h2>
                         }
 
-
-                        <!-- Submit button -->
-                        <button  class="btn btn-outline-dark btn-block mb-4">Iniciar sesion</button>
-
                         <!-- Register buttons -->
                         <div class="text-center">
-                            <p>¿No estas Registrado? <br /> <a asp-area="" asp-controller="Usuarios" asp-action="Register" style="color:blue">Registrarse</a></p>
+                            <p>¿No estas Registrado? <br /> <a asp-area="" asp-controller="Usuarios" asp-action="Register" style="color:rebeccapurple">Registrarse</a></p>
                             </button>
                         </div>
                     </form>
