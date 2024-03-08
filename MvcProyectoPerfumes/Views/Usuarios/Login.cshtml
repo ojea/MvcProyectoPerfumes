@@ -1,0 +1,65 @@
+﻿@model Usuario
+
+
+<!-- Section: Design Block -->
+<section class="text-center">
+    <!-- Background image -->
+    <div class="p-5 bg-image" style="
+        background-image: url('@Url.Content("~/images/fondo.png")');
+        background-position: center left; /* Alinea el centro de la imagen en el centro del contenedor */
+        background-size: cover; /* Ajusta el tamaño de la imagen para cubrir completamente el contenedor */
+        height: 300px;
+    "></div>
+    <!-- Background image -->
+
+    <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+        margin-top: -100px;
+        background: hsla(0, 0%, 100%, 0.8);
+        backdrop-filter: blur(30px);
+        ">
+        <div class="card-body py-5 px-md-5">
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold mb-5">Sign up now</h2>
+                    <form method="post">
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <input type="email" name="email" class="form-control" />
+                            <label class="form-label" for="form2Example1">Email address</label>
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-4">
+                            <input type="password" name="password" class="form-control" />
+                            <label class="form-label" for="form2Example2">Password</label>
+                        </div>
+
+                        @if (Model != null)
+                        {
+                            <h1 style="color:mediumpurple">Bienvenido @Model.NombreUsuario</h1>
+                            <img src="@Model.Imagen" style="width:250px; height:250px" />
+                        }
+                        else
+                        {
+                            <h2 style="color:darkred; font-size: medium;">
+                                @ViewData["MENSAJE"]
+                            </h2>
+                        }
+
+
+                        <!-- Submit button -->
+                        <button  class="btn btn-outline-dark btn-block mb-4">Iniciar sesion</button>
+
+                        <!-- Register buttons -->
+                        <div class="text-center">
+                            <p>¿No estas Registrado? <br /> <a asp-area="" asp-controller="Usuarios" asp-action="Register" style="color:blue">Registrarse</a></p>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Section: Design Block -->

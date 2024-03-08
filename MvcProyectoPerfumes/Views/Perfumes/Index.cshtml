@@ -1,0 +1,56 @@
+﻿@model IEnumerable<MvcProyectoPerfumes.Models.Perfume>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Perfumes</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="~/images/@Html.DisplayFor(modelItem => item.Imagen)" class="card-img-top mx-auto" alt="Perfume Image" style="width:100px; height:100px;">
+
+                    <div class="card-body">
+                        <h5 class="card-title">Id Perfume: @Html.DisplayFor(modelItem => item.IdPerfume)</h5>
+                        <p class="card-text">Nombre: @Html.DisplayFor(modelItem => item.Nombre)</p>
+                        <p class="card-text">Marca: @Html.DisplayFor(modelItem => item.Marca)</p>
+                        <p class="card-text">Valoración: @Html.DisplayFor(modelItem => item.Valoracion)</p>
+                        <!-- Agrega más propiedades según sea necesario -->
+                        <p class="card-text">Favorito: @Html.DisplayFor(modelItem => item.Favorito)</p>
+
+
+                        <a href="@Url.Action("Detalles", "Perfumes", new { id = item.IdPerfume })" class="btn btn-secondary">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var detailsBtns = document.querySelectorAll('.details-btn');
+
+            detailsBtns.forEach(function (btn) {
+                btn.style.display = 'none';
+
+                btn.closest('.card').addEventListener('mouseenter', function () {
+                    btn.style.display = 'block';
+                });
+
+                btn.closest('.card').addEventListener('mouseleave', function () {
+                    btn.style.display = 'none';
+                });
+            });
+        });
+    </script>
+}

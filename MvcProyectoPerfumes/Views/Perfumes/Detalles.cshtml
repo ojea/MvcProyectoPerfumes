@@ -1,0 +1,18 @@
+﻿@model Perfume
+
+<h1>Detalles del Perfume</h1>
+
+<div>
+    <h2>@Model.Nombre</h2>
+    <p>Marca: @Model.Marca</p>
+    <!-- Otras propiedades del perfume -->
+    <h3>Notas Olfativas:</h3>
+    <ul>
+        @foreach (var notaOlor in Model.NotasOlfativas)
+        {
+            <li>@notaOlor.NombreNota</li>
+            <li><img src="~/images/@notaOlor.Imagen" style="height:50px; width; 60px"/></li>
+        }
+    </ul>
+    </ul>
+</div>
