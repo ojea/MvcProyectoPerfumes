@@ -1,6 +1,46 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using MvcProyectoPerfumes.Data;
 using MvcProyectoPerfumes.Models;
+
+#region
+//BUSCAR POR NOMBRE
+
+    //CREATE PROCEDURE BuscarPorNombre
+    //@consulta NVARCHAR(50),
+    //@cantidad INT
+
+    //AS 
+    //BEGIN
+    //SET NOCOUNT ON;
+
+    //select top(@cantidad)
+
+    //        PerfumeID, Nombre, Imagen
+    //		from Perfumes
+    //		WHERE Nombre LIKE '%' + @consulta + '%'
+    //END
+    //GO 
+
+//======================
+//BUSCAR LETRAS CON ACENTO
+
+    //ALTER PROCEDURE BuscarPorNombre
+    //@consulta NVARCHAR(50),
+    //@cantidad INT
+
+    //AS 
+    //BEGIN
+    //SET NOCOUNT ON;
+		
+    //		select top (@cantidad)
+    //		PerfumeID, Nombre, Imagen
+    //		from Perfumes
+    //		WHERE  dbo.fnEliminarAcentos(Nombre) LIKE '%' + dbo.fnEliminarAcentos(@consulta) + '%'
+    //END
+    //GO
+
+#endregion
 
 namespace MvcProyectoPerfumes.Repositories
 {
@@ -19,6 +59,8 @@ namespace MvcProyectoPerfumes.Repositories
             string sql = "PERFUMES_ALL";
             var consulta = this.perfumesContext.Perfumes.FromSqlRaw(sql);
             return consulta.ToList();
+
+
         }
 
         public Perfume ObtenerDetallesPerfume(int perfumeID)

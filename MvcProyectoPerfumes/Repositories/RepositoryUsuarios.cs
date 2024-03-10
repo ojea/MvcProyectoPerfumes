@@ -1,9 +1,45 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.IdentityModel.Tokens;
 using MvcProyectoPerfumes.Data;
 using MvcProyectoPerfumes.Helpers;
 using MvcProyectoPerfumes.Models;
+using System.Diagnostics.Metrics;
+
+#region
+
+//======UPDATE USER======
+
+//ALTER PROCEDURE SP_UPDATE_USUARIO
+//(@UsuarioID INT,
+// @NOMBRE NVARCHAR(30),
+// @EMAIL NVARCHAR(50),
+// @Imagen NVARCHAR(500))
+//AS
+//BEGIN
+//    UPDATE Usuarios SET NombreUsuario = @NOMBRE,
+//    EMAIL = @EMAIL, imagen = @Imagen
+//    WHERE UsuarioID = @UsuarioID;
+//SELECT* FROM Usuarios 
+//    WHERE UsuarioID = @UsuarioID;
+//END;
+//GO
+
+//======UPDATE PASS======
+
+//CREATE PROCEDURE SP_UPDATE_USER_PASSW
+//(@ID INT,
+//@PASW VARBINARY(MAX),
+//@SALT NVARCHAR(50))
+//AS
+//    UPDATE Usuarios SET Contraseña = @PASW,
+//    SALT = @SALT WHERE UsuarioID = @ID
+//GO
+
+#endregion
 
 namespace MvcCoreCryptography.Repositories
 {
@@ -14,6 +50,15 @@ namespace MvcCoreCryptography.Repositories
         public RepositoryUsuarios(UsuariosContext context)
         {
             this.context = context;
+        }
+
+        public async Task<Usuario> FindUserAsync(int idusuario)
+        {
+            var consulta = from datos in this.context.Usuarios
+                           where datos.IdUsuario == (idusuario)
+                           select datos;
+            Usuario user = await consulta.FirstOrDefaultAsync();
+            return user;
         }
 
         private async Task<int> GetMaxIdUsuarioAsync()
@@ -68,16 +113,6 @@ namespace MvcCoreCryptography.Repositories
         {
             return await this.context.Usuarios.FirstOrDefaultAsync(x => x.TokenMail == token);
         }
-
-        //NECESITAMOS UN METODO PARA VALIDAR AL USUARIO
-        //DICHO METODO DEVOLVERA EL PROPIO USUARIO
-        //COMO COMPARAMOS?? email CAMPO UNICO
-        //password (12345)
-        //1) RECUPERAR EL USER POR SU EMAIL
-        //2) RECUPERAMOS EL SALT DEL USUARIO
-        //3) CONVERTIMOS DE NUEVO EL PASSWORD CON EL SALT
-        //4) RECUPERAMOS EL BYTE[] DE PASSWORD DE LA BBDD
-        //5) COMPARAMOS LOS DOS ARRAYS (BBDD) Y EL GENERADO EN EL CODIGO
         public async Task<Usuario> LogInUserAsync(string email, string password)
         {
             var usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
@@ -107,6 +142,36 @@ namespace MvcCoreCryptography.Repositories
             return usuario;
         }
 
+        public Usuario ActualizarInfoUsuario
+            (int id, string nombre, string email, string imagen)
+        {
+            string sql = "SP_UPDATE_USER @UsuarioID, @NOMBRE, @EMAIL, @Imagen";
 
+            SqlParameter pid = new SqlParameter("@UsuarioID", id);
+            SqlParameter pnom = new SqlParameter("@NOMBRE", nombre);
+            SqlParameter pmail = new SqlParameter("@EMAIL", email);
+            SqlParameter pima = new SqlParameter("@Imagen", imagen);
+
+            var consulta = this.context.Usuarios.FromSqlRaw(sql, pid, pnom, pmail, pima);
+
+            Usuario user = consulta.AsEnumerable().FirstOrDefault();
+
+            return user;
+        }
+
+        public void UpdatePassw(int id, string contrasena)
+        {
+            string salt = HelperCryptography.GenerateSalt();
+            byte[] passw = HelperCryptography.EncryptPassword(contrasena, salt);
+
+            string sql = "SP_UPDATE_USER_PASSW @ID, @PASW, @SALT";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter ppas = new SqlParameter("@PASW", passw);
+            SqlParameter psalt = new SqlParameter("@SALT", salt);
+
+            var consulta = this.context.Database.ExecuteSqlRaw(sql, pid, ppas, psalt);
+
+        }
     }
 }

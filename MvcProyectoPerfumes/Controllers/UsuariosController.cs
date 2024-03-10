@@ -24,6 +24,7 @@ namespace MvcCoreCryptography.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register
             (string nombre, string email, string password, string imagen)
@@ -58,8 +59,10 @@ namespace MvcCoreCryptography.Controllers
             }
             else
             {
-                return View(usuario);
+                HttpContext.Session.SetObject("USUARIO", usuario);
+                return RedirectToAction("Index", "Perfumes");
             }
+
         }
         public async Task<IActionResult> ActivateUser(string token)
         {
@@ -80,5 +83,46 @@ namespace MvcCoreCryptography.Controllers
                 return View();
             }
         }
+
+        //edición de perfil
+        public async Task<IActionResult> EditarPerfil()
+        {
+            Usuario usuario = HttpContext.Session.GetObject<Usuario>("USUARIO");
+            int id = usuario.IdUsuario;
+            Usuario user = await this.repo.FindUserAsync(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult EditarPerfil(string nombre, string email, string imagen)
+        {
+            Usuario usuario = HttpContext.Session.GetObject<Usuario>("USUARIO");
+            int id = usuario.IdUsuario;
+            Usuario user = this.repo.ActualizarInfoUsuario(id, nombre, email, imagen);
+            return View(user);
+        }
+
+        public IActionResult CerrarSesion()
+        {
+            HttpContext.Session.Remove("USUARIO");
+            return RedirectToAction("Index", "Perfumes");
+        }
+
+        public IActionResult CambiarContrasena()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CambiarContrasena(string contrasena)
+        {
+
+            Usuario usuario = HttpContext.Session.GetObject<Usuario>("USUARIO");
+            int id = usuario.IdUsuario;
+            this.repo.UpdatePassw(id, contrasena);
+
+            return RedirectToAction("EditarPerfil");
+        }
+
     }
 }

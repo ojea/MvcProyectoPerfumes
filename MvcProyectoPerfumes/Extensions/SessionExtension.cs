@@ -18,7 +18,6 @@ namespace RedSocialNetCore.Extensions
                 T data = JsonConvert.DeserializeObject<T>(json);
                 return data;
             }
-
         }
         public static void SetObject(this ISession session, string key, object value)
         {

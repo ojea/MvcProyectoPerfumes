@@ -30,9 +30,13 @@ namespace MvcProyectoPerfumes.Models
 
         [Column("TOKENMAIL")]
         public string TokenMail { get; set; }
+
         [Column("PASS")]
         public string Pass { get; set; }
+
+        //[Column("ROL")]
+        //public string Rol { get; set; }
+
         public ICollection<Perfume> Perfumes { get; set; }
-        // Otras propiedades y relaciones
     }
 }
