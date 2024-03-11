@@ -1,18 +1,26 @@
 ﻿@model Usuario
 
-<form method="post">
-    <label>Nombre de usuario:</label>
-    <input type="text" name="nombre" class="form-control" value="@Model.NombreUsuario" />
-    <br />
-    <label>Email:</label>
-    <input type="text" name="email" class="form-control" value="@Model.Email" />
-    <br />
-    <label>Imagen</label>
-    <input type="text" name="imagen" class="form-control" value="@Model.Imagen" />
-    <br />
-
-    <button class="btn btn-info">Actualizar información</button>
-</form>
-
-<a class="btn btn-warning" asp-controller="Usuarios" asp-action="CambiarContrasena">Cambiar contraseña</a>
-<a class="btn btn-danger" asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar sesion</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/images/users/@Model.Imagen" style="width:300px; height:300px" />
+            <br />
+            <br />
+            <a class="btn btn-warning" asp-controller="Usuarios" asp-action="CambiarContrasena">Cambiar contraseña</a>
+            <a class="btn btn-danger" asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar sesión</a>
+        </div>
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                <label>Nombre de usuario:</label>
+                <input type="text" name="nombre" class="form-control" value="@Model.NombreUsuario" />
+                <br />
+                <label>Email:</label>
+                <input type="text" name="email" class="form-control" value="@Model.Email" />
+                <br />
+                <input type="file" name="imagen" class="form-control" value="@Model.Imagen" />
+                <br />
+                <button class="btn btn-info">Actualizar información</button>
+            </form>
+        </div>
+    </div>
+</div>

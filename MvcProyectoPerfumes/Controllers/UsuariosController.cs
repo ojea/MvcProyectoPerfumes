@@ -13,11 +13,15 @@ namespace MvcCoreCryptography.Controllers
         private RepositoryUsuarios repo;
         private HelperMails helperMails;
         private HelperPathProvider helperPathProvider;
+        private IWebHostEnvironment hostEnvironment;
 
-        public UsuariosController(RepositoryUsuarios repo, HelperMails helperMails, HelperPathProvider helperPathProvider)
+
+
+        public UsuariosController(RepositoryUsuarios repo, HelperMails helperMails, HelperPathProvider helperPathProvider, IWebHostEnvironment hostEnvironment)
         {
             this.helperMails = helperMails;
             this.helperPathProvider = helperPathProvider;
+            this.hostEnvironment = hostEnvironment;
             this.repo = repo;
         }
         public IActionResult Register()
@@ -94,12 +98,25 @@ namespace MvcCoreCryptography.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditarPerfil(string nombre, string email, string imagen)
+        public async Task<IActionResult> EditarPerfil(string nombre, string email, IFormFile imagen)
         {
             Usuario usuario = HttpContext.Session.GetObject<Usuario>("USUARIO");
             int id = usuario.IdUsuario;
-            Usuario user = this.repo.ActualizarInfoUsuario(id, nombre, email, imagen);
-            return View(user);
+
+            string rootFolder =
+                this.hostEnvironment.WebRootPath;
+            string fileName = imagen.FileName;
+
+            string path = Path.Combine(rootFolder, "images", "users", fileName);
+
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await imagen.CopyToAsync(stream);
+            }
+
+            Usuario user = this.repo.ActualizarInfoUsuario(id, nombre, email, fileName);
+
+            return RedirectToAction("Index", "Perfumes");
         }
 
         public IActionResult CerrarSesion()
@@ -122,6 +139,34 @@ namespace MvcCoreCryptography.Controllers
             this.repo.UpdatePassw(id, contrasena);
 
             return RedirectToAction("EditarPerfil");
+        }
+
+        public async Task<IActionResult> CambiarFotoPerfil()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CambiarFotoPerfil
+            (IFormFile foto)
+        {
+            string rootFolder =
+                this.hostEnvironment.WebRootPath;
+            string fileName = foto.FileName;
+
+            string path = Path.Combine(rootFolder, "images", "users", fileName);
+
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await foto.CopyToAsync(stream);
+            }
+
+            Usuario usuario = HttpContext.Session.GetObject<Usuario>("USUARIO");
+            int id = usuario.IdUsuario;
+            this.repo.UpdatePicture(id, fileName);
+
+            ViewData["MENSAJE"] = "subido en " + path;
+            return RedirectToAction("Index", "Perfumes");
         }
 
     }

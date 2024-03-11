@@ -13,32 +13,41 @@ using System.Diagnostics.Metrics;
 
 //======UPDATE USER======
 
-//ALTER PROCEDURE SP_UPDATE_USUARIO
-//(@UsuarioID INT,
-// @NOMBRE NVARCHAR(30),
-// @EMAIL NVARCHAR(50),
-// @Imagen NVARCHAR(500))
-//AS
-//BEGIN
-//    UPDATE Usuarios SET NombreUsuario = @NOMBRE,
-//    EMAIL = @EMAIL, imagen = @Imagen
-//    WHERE UsuarioID = @UsuarioID;
-//SELECT* FROM Usuarios 
-//    WHERE UsuarioID = @UsuarioID;
-//END;
-//GO
+    //ALTER PROCEDURE SP_UPDATE_USUARIO
+    //(@UsuarioID INT,
+    // @NOMBRE NVARCHAR(30),
+    // @EMAIL NVARCHAR(50),
+    // @Imagen NVARCHAR(500))
+    //AS
+    //BEGIN
+    //    UPDATE Usuarios SET NombreUsuario = @NOMBRE,
+    //    EMAIL = @EMAIL, imagen = @Imagen
+    //    WHERE UsuarioID = @UsuarioID;
+    //SELECT* FROM Usuarios 
+    //    WHERE UsuarioID = @UsuarioID;
+    //END;
+    //GO
 
 //======UPDATE PASS======
 
-//CREATE PROCEDURE SP_UPDATE_USER_PASSW
-//(@ID INT,
-//@PASW VARBINARY(MAX),
-//@SALT NVARCHAR(50))
-//AS
-//    UPDATE Usuarios SET Contraseña = @PASW,
-//    SALT = @SALT WHERE UsuarioID = @ID
-//GO
+    //CREATE PROCEDURE SP_UPDATE_USER_PASSW
+    //(@ID INT,
+    //@PASW VARBINARY(MAX),
+    //@SALT NVARCHAR(50))
+    //AS
+    //    UPDATE Usuarios SET Contraseña = @PASW,
+    //    SALT = @SALT WHERE UsuarioID = @ID
+    //GO
 
+//======UPDATE FOTO PERFIL======
+
+    //CREATE PROCEDURE SP_UPDATE_USER_FOTO
+    // (@ID INT,
+    // @IMAGEN NVARCHAR(200))
+    // AS
+    //     UPDATE Usuarios SET Imagen = @IMAGEN
+    //     WHERE UsuarioID = @ID
+    // GO
 #endregion
 
 namespace MvcCoreCryptography.Repositories
@@ -172,6 +181,15 @@ namespace MvcCoreCryptography.Repositories
 
             var consulta = this.context.Database.ExecuteSqlRaw(sql, pid, ppas, psalt);
 
+        }
+        public void UpdatePicture(int id, string imagen)
+        {
+            string sql = "SP_UPDATE_USER_FOTO @ID, @IMAGEN";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter pfoto = new SqlParameter("@IMAGEN", imagen);
+
+            var consulta = this.context.Database.ExecuteSqlRaw(sql, pid, pfoto);
         }
     }
 }
