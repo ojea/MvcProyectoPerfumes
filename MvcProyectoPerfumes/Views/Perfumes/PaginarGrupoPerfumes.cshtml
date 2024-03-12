@@ -1,4 +1,4 @@
-﻿@model List<VistaPerfumes>
+﻿@model ModelPrueba
 
 @{
     ViewData["Title"] = "PaginarGrupoPerfumes";
@@ -8,43 +8,8 @@
     int numeroPagina = 1;
 }
 
-<div>
-    <ul class="list-group list-group-horizontal">
-        <li class="list-group-item">
-            <a asp-controller="Perfumes"
-               asp-action="PaginarGrupoPerfumes"
-               asp-route-posicion="1">
-                Primero
-            </a>
-        </li>
 
-        <li class="list-group-item">
-            <a asp-controller="Perfumes"
-               asp-action="PaginarGrupoPerfumes"
-               asp-route-posicion="@ViewData["ANTERIOR"]">
-                Anterior
-            </a>
-        </li>
-
-        <li class="list-group-item">
-            <a asp-controller="Perfumes"
-               asp-action="PaginarGrupoPerfumes"
-               asp-route-posicion="@ViewData["SIGUIENTE"]">
-                Siguiente
-            </a>
-        </li>
-
-        <li class="list-group-item">
-            <a asp-controller="Perfumes"
-               asp-action="PaginarGrupoPerfumes"
-               asp-route-posicion="@ViewData["ULTIMO"]">
-                Ultimo
-            </a>
-        </li>
-    </ul>
-</div>
-
-<table class="table table-bordered">
+@* <table class="table table-bordered">
     <thead>
         <tr>
             <th>ID</th>
@@ -54,7 +19,7 @@
     </thead>
     <tbody>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.VistaPerfumes)
         {
             <tr>
                 <td>@item.IdPerfume</td>
@@ -63,5 +28,103 @@
             </tr>
         }
     </tbody>
-</table>
+</table> *@
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<div class="container-fluid">
+    <!-- Banner en la parte superior -->
+    <div class="banner">
+        <img src="~/images/banner.jpg" alt="Banner Image">
+        <div class="text-container">
+            <h1>Aromágico</h1>
+            <p>Eslogan de la App</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form class="d-flex" asp-action="Index" asp-controller="Perfumes">
+                <input name="searchString" class="form-control me-1" type="search" placeholder="Search" aria-label="Search" value="@ViewData["CurrentFilter"]">
+                <button class="btn btn-dark" type="submit">Search by name</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <a asp-action="Index" class="text-dark">Back to Full List</a>
+        </div>
+    </div>
+
+    <div>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">
+                <a asp-controller="Perfumes"
+                   asp-action="PaginarGrupoPerfumes"
+                   asp-route-posicion="1">
+                    Primero
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a asp-controller="Perfumes"
+                   asp-action="PaginarGrupoPerfumes"
+                   asp-route-posicion="@ViewData["ANTERIOR"]">
+                    Anterior
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a asp-controller="Perfumes"
+                   asp-action="PaginarGrupoPerfumes"
+                   asp-route-posicion="@ViewData["SIGUIENTE"]">
+                    Siguiente
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a asp-controller="Perfumes"
+                   asp-action="PaginarGrupoPerfumes"
+                   asp-route-posicion="@ViewData["ULTIMO"]">
+                    Ultimo
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <!-- Sección de Cards en la parte izquierda -->
+        <div class="col-md-9">
+            <div class="row">
+                @foreach (var item in Model.VistaPerfumes)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card" style="width: 18rem;">
+                            <img src="~/images/@Html.DisplayFor(modelItem => item.Imagen)" class="card-img-top mx-auto" alt="Perfume Image" style="width:100px; height:100px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Id Perfume: @Html.DisplayFor(modelItem => item.IdPerfume)</h5>
+                                <p class="card-text">Nombre: @Html.DisplayFor(modelItem => item.Nombre)</p>
+                                <p class="card-text">Marca: @Html.DisplayFor(modelItem => item.Marca)</p>
+
+                                <a href="@Url.Action("Detalles", "Perfumes", new { id = item.IdPerfume })" class="btn btn-secondary">Ver Detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+ 
+            <div style="height: 400px; overflow-y: auto;">
+                <h3>Lista de Perfumes</h3>
+                <ul class="list-group">
+                    @foreach (var item in Model.Perfumes)
+                    {
+                        <li class="list-group-item">
+                            <img src="~/images/@Html.DisplayFor(modelItem => item.Imagen)" alt="Perfume Image" style="width:50px; height:50px; margin-right: 10px;">
+                            <span>@Html.DisplayFor(modelItem => item.Nombre)</span>
+                            <span class="badge badge-secondary">@Html.DisplayFor(modelItem => item.Valoracion)</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 

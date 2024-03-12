@@ -63,15 +63,22 @@ namespace MvcProyectoPerfumes.Controllers
 
             int registros = await this.repo.GetNumeroPerfumesAsync();
 
-            List<VistaPerfumes> perfumes =
+            List<VistaPerfumes> vistaPerfumes =
 
                 await this.repo.GetGrupoPerfumesAsync(posicion.Value);
+            List<Perfume> perfumes =  this.repo.GetPerfumes();
+            ModelPrueba modelPrueba = new ModelPrueba
+            {
+                VistaPerfumes = vistaPerfumes
+                , Perfumes = perfumes
+                
+            };
 
             ViewData["REGISTROS"] = registros;
             ViewData["ULTIMO"] = registros;
             ViewData["SIGUIENTE"] = posicion + 3;
             ViewData["ANTERIOR"] = (posicion - 3) < 1 ? 1 : (posicion - 3);
-            return View(perfumes);
+            return View(modelPrueba);
         }
     }
 }

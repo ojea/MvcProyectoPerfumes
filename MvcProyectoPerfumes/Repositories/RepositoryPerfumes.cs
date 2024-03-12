@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MvcProyectoPerfumes.Data;
 using MvcProyectoPerfumes.Models;
+using System.Diagnostics.Metrics;
 
 #region
 //BUSCAR POR NOMBRE
@@ -44,32 +45,21 @@ using MvcProyectoPerfumes.Models;
 //======================
 //PAGINACION
 
-//create view V_PERFUMES
-//as 
-//    select CAST( 
-//    ROW_NUMBER() over (ORDER BY PerfumeID) AS INT) AS POSICION,
-//    ISNULL(PerfumeID, 0) AS PerfumeID, Nombre, Marca, Imagen FROM Perfumes 
-//go 
-//SELECT * FROM V_PERFUMES WHERE POSICION= 1
-
-
-
-
-//create procedure SP_GRUPO_PERFUMES_PAGINACION
+//alter procedure SP_GRUPO_PERFUMES_PAGINACION
 //(@posicion int) 
 //as 
-//    select PerfumeID, Nombre, Marca, Imagen 
-//    from V_GRUPO_PERFUMES 
+//    select PerfumeID, Nombre, Marca, Imagen, posicion
+//	from V_GRUPO_PERFUMES 
 //    where posicion >= @posicion and posicion < (@posicion + 3) 
 //go
 
 
-//create view V_GRUPO_PERFUMES
+
+//alter view V_GRUPO_PERFUMES
 //as 
 //    select cast( 
-//        row_number() over (order by perfumeID) as int) as posicion,
-//        ISNULL(PerfumeID, 0) AS PerfumeID, Nombre
-//        , Marca, Imagen FROM Perfumes 
+//       row_number() over (order by perfumeID) as int) as posicion,
+//        ISNULL(PerfumeID, 0) AS PerfumeID, Nombre, Marca, Imagen FROM Perfumes 
 //go 
 
 #endregion
@@ -143,7 +133,7 @@ namespace MvcProyectoPerfumes.Repositories
             SqlParameter pamPosicion =
                 new SqlParameter("@posicion", posicion);
             var consulta = this.perfumesContext.VistaPerfumes.FromSqlRaw(sql, pamPosicion);
-
+            VistaPerfumes vistaPerfumes = new VistaPerfumes(); 
             return await consulta.ToListAsync();
         }
     }
