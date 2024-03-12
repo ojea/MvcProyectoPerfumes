@@ -68,6 +68,9 @@ namespace MvcProyectoPerfumes.Controllers
                 await this.repo.GetGrupoPerfumesAsync(posicion.Value);
 
             ViewData["REGISTROS"] = registros;
+            ViewData["ULTIMO"] = registros;
+            ViewData["SIGUIENTE"] = posicion + 3;
+            ViewData["ANTERIOR"] = (posicion - 3) < 1 ? 1 : (posicion - 3);
             return View(perfumes);
         }
     }

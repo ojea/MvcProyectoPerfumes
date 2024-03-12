@@ -9,7 +9,7 @@
 }
 
 <h1>Paginar Grupo Empleados</h1>
-<div>
+@* <div>
     <ul class="list-group list-group-horizontal">
         @for (int i = 1; i <= registros; i += 3)
         {
@@ -22,6 +22,42 @@
             </li>
             numeroPagina += 1;
         }
+    </ul>
+</div> *@
+
+<div>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">
+            <a asp-controller="Perfumes"
+               asp-action="PaginarGrupoPerfumes"
+               asp-route-posicion="1">
+                Primero
+            </a>
+        </li>
+
+        <li class="list-group-item">
+            <a asp-controller="Perfumes"
+               asp-action="PaginarGrupoPerfumes"
+               asp-route-posicion="@ViewData["ANTERIOR"]">
+                Anterior
+            </a>
+        </li>
+
+        <li class="list-group-item">
+            <a asp-controller="Perfumes"
+               asp-action="PaginarGrupoPerfumes"
+               asp-route-posicion="@ViewData["SIGUIENTE"]">
+                Siguiente
+            </a>
+        </li>
+
+        <li class="list-group-item">
+            <a asp-controller="Perfumes"
+               asp-action="PaginarGrupoPerfumes"
+               asp-route-posicion="@ViewData["ULTIMO"]">
+                Ultimo
+            </a>
+        </li>
     </ul>
 </div>
 
