@@ -8,23 +8,6 @@
     int numeroPagina = 1;
 }
 
-<h1>Paginar Grupo Empleados</h1>
-@* <div>
-    <ul class="list-group list-group-horizontal">
-        @for (int i = 1; i <= registros; i += 3)
-        {
-            <li class="list-group-item list-group-item-warning">
-                <a asp-controller="Perfumes"
-                   asp-action="PaginarGrupoPerfumes"
-                   asp-route-posicion="@i">
-                    @numeroPagina
-                </a>
-            </li>
-            numeroPagina += 1;
-        }
-    </ul>
-</div> *@
-
 <div>
     <ul class="list-group list-group-horizontal">
         <li class="list-group-item">
