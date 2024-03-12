@@ -10,6 +10,7 @@ namespace MvcProyectoPerfumes.Data
         public DbSet<Perfume> Perfumes { get; set; }
         public DbSet<NotaOlor> NotasOlor { get; set; }
         public DbSet<PerfumeNotaOlor> PerfumeNotaOlor { get; set; }
+        public DbSet<VistaPerfumes> VistaPerfumes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -19,11 +19,11 @@ namespace MvcProyectoPerfumes.Controllers
         }
 
 
-        public IActionResult Index(string searchString, int pg=1)
+        public IActionResult Index(string searchString, int pg = 1)
         {
             List<Perfume> perfumes = this.repo.GetPerfumes();
 
-            if(!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
                 perfumes = perfumes.Where(n => n.Nombre.Contains(searchString) || n.Marca.Contains(searchString)).ToList();
             }
@@ -31,7 +31,7 @@ namespace MvcProyectoPerfumes.Controllers
             ModelIndex model = new ModelIndex();
             model.Perfumes = perfumes;
 
-           if( HttpContext.Session.GetObject<Usuario>("USUARIO") != null)
+            if (HttpContext.Session.GetObject<Usuario>("USUARIO") != null)
             {
                 model.Usuario = HttpContext.Session.GetObject<Usuario>("USUARIO");
             }
@@ -53,7 +53,22 @@ namespace MvcProyectoPerfumes.Controllers
             return View(perfume);
         }
 
+        public async Task<IActionResult>
+            PaginarGrupoPerfumes(int? posicion)
+        {
+            if (posicion == null)
+            {
+                posicion = 1;
+            }
 
+            int registros = await this.repo.GetNumeroPerfumesAsync();
 
-    } 
+            List<VistaPerfumes> perfumes =
+
+                await this.repo.GetGrupoPerfumesAsync(posicion.Value);
+
+            ViewData["REGISTROS"] = registros;
+            return View(perfumes);
+        }
+    }
 }

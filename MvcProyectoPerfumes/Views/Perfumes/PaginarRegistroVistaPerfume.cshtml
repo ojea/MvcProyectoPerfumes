@@ -1,0 +1,64 @@
+﻿@model List<MvcProyectoPerfumes.Models.VistaPerfumes>
+
+<h1>Paginación Registro Vista</h1>
+
+<h2 style="color:blue">
+    Registro @Model.FirstOrDefault()?.Posicion @ViewData["ANTERIOR"] de @ViewData["ULTIMO"]
+</h2>
+
+<div>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">
+            <a asp-controller="Paginacion"
+               asp-action="PaginarRegistroVistaPerfume"
+               asp-route-posicion="1">
+                Primero
+            </a>
+        </li>
+
+        <li class="list-group-item">
+            <a asp-controller="Paginacion"
+               asp-action="PaginarRegistroVistaPerfume"
+               asp-route-posicion="@ViewData["ANTERIOR"]">
+                Anterior
+            </a>
+        </li>
+
+        <li class="list-group-item">
+            <a asp-controller="Paginacion"
+               asp-action="PaginarRegistroVistaPerfume"
+               asp-route-posicion="@ViewData["SIGUIENTE"]">
+                Siguiente
+            </a>
+        </li>
+
+        <li class="list-group-item">
+            <a asp-controller="Paginacion"
+               asp-action="PaginarRegistroVistaPerfume"
+               asp-route-posicion="@ViewData["ULTIMO"]">
+                Ultimo
+            </a>
+        </li>
+    </ul>
+</div>
+
+<hr />
+
+@foreach (var perfume in Model)
+{
+    <ul class="list-group">
+
+        <li class="list-group-item list-group-item-info">
+            Número: @perfume.IdPerfume
+        </li>
+
+        <li class="list-group-item list-group-item-info">
+            Nombre: @perfume.Nombre
+        </li>
+
+        <li class="list-group-item list-group-item-info">
+            Marca: @perfume.Marca
+        </li>
+
+    </ul>
+}
