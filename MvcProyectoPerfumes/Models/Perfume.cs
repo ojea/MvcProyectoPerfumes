@@ -28,10 +28,8 @@ namespace MvcProyectoPerfumes.Models
         [Column("Imagen")]
         public string Imagen { get; set; }
 
-        [Column("Comentarios")]
-        public string Comentarios { get; set; }
         public List<PerfumeNotaOlor> NotasOlfativas { get; set; }
-
+        public List<Comentario> Comentarios { get; set; }
 
 
     }

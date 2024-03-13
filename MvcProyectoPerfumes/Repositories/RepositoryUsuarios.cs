@@ -87,11 +87,13 @@ namespace MvcCoreCryptography.Repositories
             RegisterUserAsync(string nombre, string email
             , string password, string imagen)
         {
+
             Usuario user = new Usuario();
+            user.Rol = 0;
             user.IdUsuario = await this.GetMaxIdUsuarioAsync();
             user.NombreUsuario = nombre;
             user.Email = email;
-            user.Imagen = imagen;
+            user.Imagen = "default.png";
             //TEMPORAL
             user.Activo = true;
             user.Pass = password;

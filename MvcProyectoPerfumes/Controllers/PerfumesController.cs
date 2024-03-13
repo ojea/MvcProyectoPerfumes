@@ -7,6 +7,7 @@ using MvcProyectoPerfumes.Models;
 using MvcProyectoPerfumes.Repositories;
 using RedSocialNetCore.Extensions;
 using System.Collections.Generic;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MvcProyectoPerfumes.Controllers
 {
@@ -22,6 +23,7 @@ namespace MvcProyectoPerfumes.Controllers
             this.repo = repo;
         }
 
+        //MENU PRINCIPAL (INDEX)
 
         public IActionResult Index(string searchString, int pg = 1)
         {
@@ -43,19 +45,53 @@ namespace MvcProyectoPerfumes.Controllers
             return View(model);
         }
 
-        public IActionResult Detalles(int id)
-        {
-            Perfume perfume = repo.ObtenerPorId(id);
+        //DETALLES
 
-            if (perfume == null)
+        [ResponseCache (Duration = 3600, Location = ResponseCacheLocation.Client)]
+        public IActionResult Detalles(int id, int? idfav)
+        {
+
+            if (HttpContext.Session.GetObject<Usuario>("USUARIO") != null)
             {
-                return NotFound();
+                ViewData["USUARIO"] = true;
+            } else
+            {
+                ViewData["USUARIO"] = false;
             }
 
-            perfume.NotasOlfativas = repo.ObtenerNotasOlfativasPorPerfumeId(id);
+            if (idfav != null)
+            {
+                List<Perfume> perfumesFav;
+                if(this.memoryCache.Get("FAV") == null)
+                {
+                    perfumesFav = new List<Perfume>();
+                } else
+                {
+                    perfumesFav = this.memoryCache.Get<List<Perfume>>("FAV");
+                }
+                Perfume perfume = repo.ObtenerPorId(idfav.Value);
+                perfume.NotasOlfativas = repo.ObtenerNotasOlfativasPorPerfumeId(idfav.Value);
+                perfumesFav.Add(perfume);
 
-            return View(perfume);
+                this.memoryCache.Set("FAV", perfumesFav);
+                return View(perfume);
+
+            }  else
+            {
+                Perfume perfume = repo.ObtenerPorId(id);
+
+                if (perfume == null)
+                {
+                    return NotFound();
+                }
+
+                perfume.NotasOlfativas = repo.ObtenerNotasOlfativasPorPerfumeId(id);
+
+                return View(perfume);
+            }
         }
+
+        //PAGINACION
 
         public async Task<IActionResult>
             PaginarGrupoPerfumes(int? posicion)
@@ -84,5 +120,14 @@ namespace MvcProyectoPerfumes.Controllers
             ViewData["ANTERIOR"] = (posicion - 9) < 1 ? 1 : (posicion - 9);
             return View(modelPrueba);
         }
+
+        [HttpPost]
+        public ActionResult AgregarComentario(int perfumeID, int usuarioID, string comentario, int rating, DateTime fechaPublicacion)
+        {
+            repo.InsertarComentario(perfumeID, usuarioID, comentario, rating, fechaPublicacion);
+            return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
+        }
+
+
     }
 }

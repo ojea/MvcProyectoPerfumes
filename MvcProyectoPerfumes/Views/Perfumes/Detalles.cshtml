@@ -2,6 +2,25 @@
 
 <h1>Detalles del Perfume</h1>
 
+<a asp-controller="Perfumes"
+   asp-action="PaginarGrupoPerfumes"
+   class="btn btn-outline-info">
+    Volver
+</a>
+
+@{
+    bool usuario = (bool)ViewData["USUARIO"];
+}
+@if (usuario == true)
+{
+    <a asp-controller="Perfumes"
+       asp-action="Detalles"
+       asp-route-idfav="@Model.IdPerfume"
+       class="btn btn-outline-danger">
+        Favoritos❤
+    </a>
+}
+
 <div>
     <h2>@Model.Nombre</h2>
     <p>Marca: @Model.Marca</p>
@@ -11,8 +30,48 @@
         @foreach (var notaOlor in Model.NotasOlfativas)
         {
             <li>@notaOlor.NombreNota</li>
-            <li><img src="~/images/@notaOlor.Imagen" style="height:50px; width; 60px"/></li>
+            <li><img src="~/images/@notaOlor.Imagen" style="height:50px; width; 60px" /></li>
         }
     </ul>
-    </ul>
+
+    <h2>Insertar comentario:</h2>
+    <form method="post">
+        <input type="text" name="comentario" class="form-control" />
+
+        <!-- Agrega el campo de valoración -->
+        <div>
+            <label for="rating">Valoración:</label>
+            <select name="rating" id="rating">
+                <option value="1">1 estrella</option>
+                <option value="2">2 estrellas</option>
+                <option value="3">3 estrellas</option>
+                <option value="4">4 estrellas</option>
+                <option value="5">5 estrellas</option>
+            </select>
+        </div>
+
+        <button class="btn btn-outline-dark btn-block">Publicar comentario</button>
+    </form>
+
+    <!-- Muestra los comentarios -->
+    <h2>Comentarios:</h2>
+    @if (Model.Comentarios != null && Model.Comentarios.Any())
+    {
+        <ul>
+            @foreach (var comentario in Model.Comentarios)
+            {
+                <li>
+                    <strong>@comentario.UsuarioId</strong>: @comentario.comentario
+                    <br />
+                    <small>Valoración: @comentario.Rating.ToString() estrellas</small>
+                    <br />
+                    <small>@comentario.FechaPublicacion.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No hay comentarios aún.</p>
+    }
 </div>

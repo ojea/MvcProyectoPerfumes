@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
 builder.Services.AddTransient<RepositoryPerfumes>();
 builder.Services.AddTransient<RepositoryUsuarios>();
 builder.Services.AddTransient<HelperMails>();

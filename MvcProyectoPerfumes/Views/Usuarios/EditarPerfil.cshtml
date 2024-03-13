@@ -1,5 +1,10 @@
 ﻿@model Usuario
 
+@{
+    List<Perfume> favoritos = memoryCache.Get<List<Perfume>>("FAV");
+}
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-4">
@@ -24,3 +29,16 @@
         </div>
     </div>
 </div>
+
+@if(favoritos != null)
+{
+    @foreach(Perfume perfume in favoritos) {
+        <div class="card" style="width: 18rem;">
+            <img src="~/images/@perfume.Imagen" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@perfume.Nombre</h5>
+            </div>
+        </div>
+    }
+
+}

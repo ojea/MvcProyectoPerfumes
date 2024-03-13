@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using MvcProyectoPerfumes.Data;
 using MvcProyectoPerfumes.Models;
 using System.Diagnostics.Metrics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 #region
 //BUSCAR POR NOMBRE
@@ -62,6 +64,36 @@ using System.Diagnostics.Metrics;
 //        ISNULL(PerfumeID, 0) AS PerfumeID, Nombre, Marca, Imagen FROM Perfumes 
 //go 
 
+
+//COMENTARIOS
+
+//CREATE PROCEDURE INSERTAR_COMENTARIO (
+//	@PerfumeID INT,
+//    @UsuarioID INT,
+//    @Comentario TEXT,
+//    @FechaPublicacion DATE
+//)
+//AS
+//	DECLARE @ID INT
+//	SELECT @ID = MAX(ComentarioID) + 1 FROM Comentarios
+//    INSERT INTO Comentarios
+//    VALUES (@ID, @PerfumeID, @UsuarioID, @Comentario, @FechaPublicacion);
+//GO
+
+//ALTER PROCEDURE INSERTAR_COMENTARIO (
+//    @PerfumeID INT,
+//    @UsuarioID INT,
+//    @Comentario TEXT,
+//    @Rating INT,
+//    @FechaPublicacion DATE
+//)
+//AS
+//    DECLARE @ID INT
+//    SELECT @ID = MAX(ComentarioID) + 1 FROM Comentarios
+    
+//    INSERT INTO Comentarios (ComentarioID, PerfumeID, UsuarioID, Comentario, Rating, FechaPublicacion)
+//    VALUES (@ID, @PerfumeID, @UsuarioID, @Comentario, @Rating, @FechaPublicacion);
+//GO
 #endregion
 
 namespace MvcProyectoPerfumes.Repositories
@@ -136,5 +168,22 @@ namespace MvcProyectoPerfumes.Repositories
             VistaPerfumes vistaPerfumes = new VistaPerfumes();
             return await consulta.ToListAsync();
         }
+
+        //COMENTARIOS
+
+        public void InsertarComentario(int perfumeId, int usuarioId, string comentario, int rating, DateTime fechaPublicacion)
+        {
+            string sql = "INSERTAR_COMENTARIO @PerfumeID, @UsuarioID, @Comentario, @Rating, @FechaPublicacion";
+
+            var perfumeIdParam = new SqlParameter("@PerfumeID", perfumeId);
+            var usuarioIdParam = new SqlParameter("@UsuarioID", usuarioId);
+            var comentarioParam = new SqlParameter("@Comentario", comentario);
+            var ratingParam = new SqlParameter("@Rating", rating);
+            var fechaPublicacionParam = new SqlParameter("@FechaPublicacion", fechaPublicacion);
+
+            var consulta = this.perfumesContext.Database.ExecuteSqlRaw(sql, perfumeIdParam, usuarioIdParam, comentarioParam, ratingParam, fechaPublicacionParam);
+        }
+
+
     }
 }

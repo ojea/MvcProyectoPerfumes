@@ -41,7 +41,7 @@ namespace MvcCoreCryptography.Controllers
             mensaje += "<p>Debe activar su cuenta con nosotros pulsando el siguiente enlace</p>";
             mensaje += "<a href='" + serverUrl + "'>" + serverUrl + "</a>";
             mensaje += "<p>Muchas gracias</p>";
-            //await this.helperMails.SendMailAsync(email, "Registro Usuario", mensaje);
+            await this.helperMails.SendMailAsync(email, "Registro Usuario", mensaje);
             ViewData["MENSAJE"] = "Usuario registrado correctamente. " +
                 " Hemos enviado un mail para activar su cuenta";
             return View();
@@ -64,7 +64,7 @@ namespace MvcCoreCryptography.Controllers
             else
             {
                 HttpContext.Session.SetObject("USUARIO", usuario);
-                return RedirectToAction("Index", "Perfumes");
+                return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
             }
 
         }
@@ -116,13 +116,13 @@ namespace MvcCoreCryptography.Controllers
 
             Usuario user = this.repo.ActualizarInfoUsuario(id, nombre, email, fileName);
 
-            return RedirectToAction("Index", "Perfumes");
+            return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
         }
 
         public IActionResult CerrarSesion()
         {
             HttpContext.Session.Remove("USUARIO");
-            return RedirectToAction("Index", "Perfumes");
+            return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
         }
 
         public IActionResult CambiarContrasena()
@@ -166,7 +166,7 @@ namespace MvcCoreCryptography.Controllers
             this.repo.UpdatePicture(id, fileName);
 
             ViewData["MENSAJE"] = "subido en " + path;
-            return RedirectToAction("Index", "Perfumes");
+            return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
         }
 
     }

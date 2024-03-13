@@ -25,17 +25,10 @@
         </div>
     </div>
 </div>
-@*         <div class="row">
         <div class="col-md-6">
-            <form class="d-flex" asp-controller="Perfumes" asp-action="PaginarGrupoPerfumes">
-                <input name="searchString" class="form-control me-1" type="search" placeholder="Search" aria-label="Search" value="@ViewData["CurrentFilter"]">
-                <button class="btn btn-dark" type="submit">Search by name</button>
-            </form>
+            <a asp-action="Index" class="text-dark">IR AL SEARCH</a>
         </div>
-        <div class="col-md-6">
-            <a asp-action="Index" class="text-dark">Back to Full List</a>
-        </div>
-    </div> *@
+    </div>
 
 
 <div class="container">
@@ -59,11 +52,6 @@
                     </div>
                 }
             </div>
-        </div>
-    </div>
-</div>
-
-            <!-- Sección de Botones -->
             <div class="col-md-3">
                 <div>
                     @if (Model.Usuario != null)
@@ -78,52 +66,57 @@
                         <a class="btn btn-outline-info mt-3" asp-area="" asp-controller="Usuarios" asp-action="Login">Login</a>
                         <a class="btn btn-outline-info mt-3" asp-area="" asp-controller="Usuarios" asp-action="Register">Register User</a>
                     }
-                </div>
-            </div>
-        </div>
-        <!-- Sección de Paginación -->
-        <div class="row justify-content-center mt-5">
-            <div>
-                <ul class="pagination">
-                    <div>
-                        <ul class="list-group list-group-horizontal">
-                            <li class="list-group-item">
-                                <a asp-controller="Perfumes"
-                                   asp-action="PaginarGrupoPerfumes"
-                                   asp-route-posicion="1">
-                                    Primero
-                                </a>
-                            </li>
 
-                            <li class="list-group-item">
-                                <a asp-controller="Perfumes"
-                                   asp-action="PaginarGrupoPerfumes"
-                                   asp-route-posicion="@ViewData["ANTERIOR"]">
-                                    Anterior
-                                </a>
-                            </li>
+                    <div class="row justify-content-center mt-5">
+                        <div>
+                            <ul class="pagination">
+                                <div>
+                                    <ul class="list-group list-group-horizontal">
+                                        <li class="list-group-item">
+                                            <a asp-controller="Perfumes"
+                                               asp-action="PaginarGrupoPerfumes"
+                                               asp-route-posicion="1">
+                                                Primero
+                                            </a>
+                                        </li>
 
-                            <li class="list-group-item">
-                                <a asp-controller="Perfumes"
-                                   asp-action="PaginarGrupoPerfumes"
-                                   asp-route-posicion="@ViewData["SIGUIENTE"]">
-                                    Siguiente
-                                </a>
-                            </li>
+                                        <li class="list-group-item">
+                                            <a asp-controller="Perfumes"
+                                               asp-action="PaginarGrupoPerfumes"
+                                               asp-route-posicion="@ViewData["ANTERIOR"]">
+                                                Anterior
+                                            </a>
+                                        </li>
 
-                            <li class="list-group-item">
-                                <a asp-controller="Perfumes"
-                                   asp-action="PaginarGrupoPerfumes"
-                                   asp-route-posicion="@ViewData["ULTIMO"]">
-                                    Ultimo
-                                </a>
-                            </li>
-                        </ul>
+                                        <li class="list-group-item">
+                                            <a asp-controller="Perfumes"
+                                               asp-action="PaginarGrupoPerfumes"
+                                               asp-route-posicion="@ViewData["SIGUIENTE"]">
+                                                Siguiente
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a asp-controller="Perfumes"
+                                               asp-action="PaginarGrupoPerfumes"
+                                               asp-route-posicion="@ViewData["ULTIMO"]">
+                                                Ultimo
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ul>
+                        </div>
                     </div>
-                </ul>
-            </div>
+                </div>
         </div>
     </div>
+</div>
+
+<!-- Sección de Paginación -->
+
+
+
 
 
 

@@ -22,6 +22,9 @@ namespace MvcProyectoPerfumes.Models
         [Column("NombreUsuario")]
         public string NombreUsuario { get; set; }
 
+        [Column("ROL")]
+        public int Rol { get; set; }
+
         [Column("SALT")]
         public string Salt { get; set; }
 
