@@ -50,7 +50,7 @@ using System.Diagnostics.Metrics;
 //as 
 //    select PerfumeID, Nombre, Marca, Imagen, posicion
 //	from V_GRUPO_PERFUMES 
-//    where posicion >= @posicion and posicion < (@posicion + 3) 
+//    where posicion >= @posicion and posicion < (@posicion + 12) 
 //go
 
 
@@ -133,7 +133,7 @@ namespace MvcProyectoPerfumes.Repositories
             SqlParameter pamPosicion =
                 new SqlParameter("@posicion", posicion);
             var consulta = this.perfumesContext.VistaPerfumes.FromSqlRaw(sql, pamPosicion);
-            VistaPerfumes vistaPerfumes = new VistaPerfumes(); 
+            VistaPerfumes vistaPerfumes = new VistaPerfumes();
             return await consulta.ToListAsync();
         }
     }

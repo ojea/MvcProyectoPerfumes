@@ -32,7 +32,41 @@
             <a asp-action="Index" class="text-dark">Back to Full List</a>
         </div>
     </div>
+@*     <div>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">
+                <a asp-controller="Perfumes"
+                   asp-action="Index"
+                   asp-route-posicion="1">
+                    Primero
+                </a>
+            </li>
 
+            <li class="list-group-item">
+                <a asp-controller="Perfumes"
+                   asp-action="Index"
+                   asp-route-posicion="@ViewData["ANTERIOR"]">
+                    Anterior
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a asp-controller="Perfumes"
+                   asp-action="Index"
+                   asp-route-posicion="@ViewData["SIGUIENTE"]">
+                    Siguiente
+                </a>
+            </li>
+
+            <li class="list-group-item">
+                <a asp-controller="Perfumes"
+                   asp-action="Index"
+                   asp-route-posicion="@ViewData["ULTIMO"]">
+                    Ultimo
+                </a>
+            </li>
+        </ul>
+    </div> *@
 
     <div class="row">
         <!-- Sección de Cards en la parte izquierda -->

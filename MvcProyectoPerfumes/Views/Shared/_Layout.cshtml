@@ -12,31 +12,34 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <img src="~/images/Aromagico.jpg" style="width: 70px"/>
+                <div class="mx-auto">
+                    <!-- Agregamos esta clase para centrar -->
+                    <img src="~/images/aromagicologo.png" style="width: 200px" />
+                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                @* <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-@*                         <li class="nav-item">
+                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li> *@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Perfumes" asp-action="Index">Perfumes</a>
-                        </li>
+                        </li> 
+                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="perfumes" asp-action="index">perfumes</a>
+                        </li>  
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
+                                dropdown
                             </a>
                             <ul class="dropdown-menu ml-auto">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Usuarios" asp-action="DetalleUsuario">Usuario</a></li>
-                                <li>@Html.ActionLink("Salir", "CerrarSesion", "Home")</li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Perfumes" asp-action="PaginarGrupoPerfumes">Perfumes</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="usuarios" asp-action="detalleusuario">usuario</a></li>
+                                <li>@html.actionlink("salir", "cerrarsesion", "home")</li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="perfumes" asp-action="paginargrupoperfumes">perfumes</a></li>
                             </ul>
-                        </li>
+                        </li>  
                     </ul>
-                </div>
+                </div> *@
             </div>
         </nav>
     </header>

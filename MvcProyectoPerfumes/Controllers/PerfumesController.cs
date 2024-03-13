@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Caching.Memory;
 using MvcProyectoPerfumes.Data;
 using MvcProyectoPerfumes.Models;
 using MvcProyectoPerfumes.Repositories;
 using RedSocialNetCore.Extensions;
+using System.Collections.Generic;
 
 namespace MvcProyectoPerfumes.Controllers
 {
@@ -12,9 +14,11 @@ namespace MvcProyectoPerfumes.Controllers
     {
 
         private RepositoryPerfumes repo;
+        private IMemoryCache memoryCache;
 
-        public PerfumesController(RepositoryPerfumes repo)
+        public PerfumesController(RepositoryPerfumes repo, IMemoryCache memoryCache)
         {
+            this.memoryCache = memoryCache;
             this.repo = repo;
         }
 
@@ -76,8 +80,8 @@ namespace MvcProyectoPerfumes.Controllers
 
             ViewData["REGISTROS"] = registros;
             ViewData["ULTIMO"] = registros;
-            ViewData["SIGUIENTE"] = posicion + 3;
-            ViewData["ANTERIOR"] = (posicion - 3) < 1 ? 1 : (posicion - 3);
+            ViewData["SIGUIENTE"] = posicion + 9;
+            ViewData["ANTERIOR"] = (posicion - 9) < 1 ? 1 : (posicion - 9);
             return View(modelPrueba);
         }
     }
