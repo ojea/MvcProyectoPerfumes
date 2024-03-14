@@ -25,16 +25,49 @@ namespace MvcProyectoPerfumes.Controllers
 
         //MENU PRINCIPAL (INDEX)
 
-        public IActionResult Index(string searchString, int pg = 1)
+        public async Task<IActionResult> Index(string searchString, string marcaSeleccionada, int page = 1)
         {
-            List<Perfume> perfumes = this.repo.GetPerfumes();
+            int pageSize = 12; // Número de elementos por página
 
-            if (!String.IsNullOrEmpty(searchString))
+            // Obtener todos los perfumes sin filtrar
+            List<Perfume> allPerfumes = repo.GetPerfumes();
+
+            // Obtener lista de marcas disponibles antes de aplicar cualquier filtro
+            List<string> marcasDisponibles = allPerfumes.Select(p => p.Marca).Distinct().ToList();
+
+            // Aplicar búsqueda por nombre si se proporciona
+            if (!string.IsNullOrEmpty(searchString))
             {
-                perfumes = perfumes.Where(n => n.Nombre.Contains(searchString) || n.Marca.Contains(searchString)).ToList();
+                allPerfumes = allPerfumes.Where(p => p.Nombre.Contains(searchString)).ToList();
             }
 
-            ModelIndex model = new ModelIndex();
+            // Filtrar por marca si se selecciona una en el filtro
+            if (!string.IsNullOrEmpty(marcaSeleccionada))
+            {
+                allPerfumes = allPerfumes.Where(p => p.Marca == marcaSeleccionada).ToList();
+            }
+
+            // Calcular el total de elementos y páginas después de aplicar la búsqueda y los filtros
+            int totalItems = allPerfumes.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            // Obtener la página actual de perfumes
+            List<Perfume> perfumes = allPerfumes.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ModelIndex model = new ModelIndex
+            {
+                Perfumes = perfumes,
+                MarcasDisponibles = marcasDisponibles,
+                MarcaSeleccionada = marcaSeleccionada,
+                SearchString = searchString,
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = page,
+                    TotalItems = totalItems,
+                    ItemsPerPage = pageSize
+                }
+            };
+
             model.Perfumes = perfumes;
 
             if (HttpContext.Session.GetObject<Usuario>("USUARIO") != null)
@@ -44,7 +77,6 @@ namespace MvcProyectoPerfumes.Controllers
 
             return View(model);
         }
-
         //DETALLES
 
         [ResponseCache (Duration = 3600, Location = ResponseCacheLocation.Client)]
