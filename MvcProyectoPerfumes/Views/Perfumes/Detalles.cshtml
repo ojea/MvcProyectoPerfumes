@@ -3,14 +3,18 @@
 <h1>Detalles del Perfume</h1>
 
 <a asp-controller="Perfumes"
-   asp-action="PaginarGrupoPerfumes"
+   asp-action="Index"
    class="btn btn-outline-info">
     Volver
 </a>
 
 @{
     bool usuario = (bool)ViewData["USUARIO"];
+    List <Comentario> comentarios = ViewData["COMENTARIOS"] as List<Comentario>;
 }
+
+
+
 @if (usuario == true)
 {
     <a asp-controller="Perfumes"
@@ -20,6 +24,27 @@
         Favoritos❤
     </a>
 }
+
+@if (usuario == true)
+{
+    <a asp-controller="Perfumes"
+       asp-action="Detalles"
+       asp-route-idColeccion="@Model.IdPerfume"
+       class="btn btn-outline-info">
+        La tengo
+    </a>
+}
+
+@if (usuario == true)
+{
+    <a asp-controller="Perfumes"
+       asp-action="Detalles"
+       asp-route-quieroOler="@Model.IdPerfume"
+       class="btn btn-outline-warning">
+        Quiero probarla
+    </a>
+}
+
 
 <div>
     <h2>@Model.Nombre</h2>
@@ -33,32 +58,22 @@
             <li><img src="~/images/@notaOlor.Imagen" style="height:50px; width; 60px" /></li>
         }
     </ul>
-
-    <h2>Insertar comentario:</h2>
-    <form method="post">
-        <input type="text" name="comentario" class="form-control" />
-
-        <!-- Agrega el campo de valoración -->
-        <div>
-            <label for="rating">Valoración:</label>
-            <select name="rating" id="rating">
-                <option value="1">1 estrella</option>
-                <option value="2">2 estrellas</option>
-                <option value="3">3 estrellas</option>
-                <option value="4">4 estrellas</option>
-                <option value="5">5 estrellas</option>
-            </select>
-        </div>
-
-        <button class="btn btn-outline-dark btn-block">Publicar comentario</button>
-    </form>
-
     <!-- Muestra los comentarios -->
     <h2>Comentarios:</h2>
-    @if (Model.Comentarios != null && Model.Comentarios.Any())
+    @if (usuario == true)
+    {
+        <a asp-controller="Perfumes"
+           asp-action="AgregarComentario"
+           asp-route-idperfume="@Model.IdPerfume"
+           class="btn btn-outline-danger">
+            Agregar comentario
+        </a>
+
+    }
+    @if (comentarios != null && comentarios.Any())
     {
         <ul>
-            @foreach (var comentario in Model.Comentarios)
+            @foreach ( Comentario comentario in comentarios)
             {
                 <li>
                     <strong>@comentario.UsuarioId</strong>: @comentario.comentario
@@ -75,3 +90,4 @@
         <p>No hay comentarios aún.</p>
     }
 </div>
+

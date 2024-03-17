@@ -2,8 +2,24 @@
 
 @{
     List<Perfume> favoritos = memoryCache.Get<List<Perfume>>("FAV");
+    List<Perfume> coleccion = memoryCache.Get<List<Perfume>>("COLECCION");
+    List<Perfume> quieroOler = memoryCache.Get<List<Perfume>>("QUIEROPROBAR");
 }
 
+<a asp-controller="Perfumes"
+   asp-action="Index"
+   class="btn btn-outline-info">
+    Volver
+</a>
+
+@if (Model.Rol == 1)
+{
+    <a asp-controller="Perfumes"
+       asp-action="ListaPerfumes"
+       class="btn btn-outline-warning">
+        Insertar perfume
+    </a>
+}
 
 <div class="container">
     <div class="row">
@@ -30,15 +46,70 @@
     </div>
 </div>
 
-@if(favoritos != null)
+@if (favoritos != null)
 {
-    @foreach(Perfume perfume in favoritos) {
-        <div class="card" style="width: 18rem;">
-            <img src="~/images/@perfume.Imagen" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">@perfume.Nombre</h5>
-            </div>
+    <h1>Mis favoritos</h1>
+    <hr />
+    @foreach (Perfume perfume in favoritos)
+    {
+        <div class="card">
+            <a asp-controller="Perfumes"
+               asp-action="Detalles"
+               asp-route-id="@perfume.IdPerfume">
+                <img src="~/images/Perfumes/@perfume.Imagen" style="width:50px; height:50px">
+            </a>
+            <a asp-controller="Perfumes"
+               asp-action="EliminarFavoritos"
+               asp-route-idperfume="@perfume.IdPerfume">
+                ❌
+            </a>
+        </div>
+
+    }
+
+}
+
+@if (coleccion != null)
+{
+    <h1>Mi colécción</h1>
+    <hr />
+    @foreach (Perfume perfume in coleccion)
+    {
+        <div class="card">
+            <a asp-controller="Perfumes"
+               asp-action="Detalles"
+               asp-route-id="@perfume.IdPerfume">
+                <img src="~/images/Perfumes/@perfume.Imagen" style="width:50px; height:50px">
+            </a>
+            <a asp-controller="Perfumes"
+               asp-action="EliminarDeColeccion"
+               asp-route-idperfume="@perfume.IdPerfume">
+                ❌
+            </a>
         </div>
     }
 
 }
+
+@if (quieroOler != null)
+{
+    <h1>Quiero probarla</h1>
+    <hr />
+    @foreach (Perfume perfume in quieroOler)
+    {
+        <div class="card" style="width: 18rem;">
+            <a asp-controller="Perfumes"
+               asp-action="Detalles"
+               asp-route-id="@perfume.IdPerfume">
+                <img src="~/images/Perfumes/@perfume.Imagen" style="width:50px; height:50px">
+            </a>
+            <a asp-controller="Perfumes"
+               asp-action="EliminarDeProbar"
+               asp-route-idperfume="@perfume.IdPerfume">
+                ❌
+            </a>
+        </div>
+    }
+}
+
+

@@ -16,6 +16,9 @@ namespace MvcProyectoPerfumes.Models
         [Column("Marca")]
         public string Marca { get; set; }
 
+        [Column("Modelo")]
+        public string Modelo { get; set; }
+
         [Column("Valoracion")]
         public decimal Valoracion { get; set; }
 

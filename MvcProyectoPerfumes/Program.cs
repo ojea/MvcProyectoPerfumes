@@ -48,6 +48,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Perfumes}/{action=PaginarGrupoPerfumes}/{id?}");
+    pattern: "{controller=Perfumes}/{action=Index}/{id?}");
 
 app.Run();

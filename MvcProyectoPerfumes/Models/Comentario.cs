@@ -10,19 +10,19 @@ namespace MvcProyectoPerfumes.Models
         [Column("ComentarioID")]
         public int ComentarioId { get; set; }
 
-        [Column("@PerfumeID")]
-        public int @PerfumeId { get; set; }
+        [Column("PerfumeID")]
+        public int PerfumeId { get; set; }
 
-        [Column("@UsuarioID")]
+        [Column("UsuarioID")]
         public int UsuarioId { get; set; }
 
-        [Column("@Comentario")]
+        [Column("Comentario")]
         public string comentario { get; set; }
 
-        [Column("@FechaPublicacion")]
+        [Column("FechaPublicacion")]
         public DateTime FechaPublicacion { get; set; }
 
-        [Column("@Rating")]
+        [Column("Rating")]
         public int Rating { get; set; }
     }
 }

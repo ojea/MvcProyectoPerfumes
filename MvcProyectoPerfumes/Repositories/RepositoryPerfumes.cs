@@ -90,9 +90,33 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 //AS
 //    DECLARE @ID INT
 //    SELECT @ID = MAX(ComentarioID) + 1 FROM Comentarios
-    
+
 //    INSERT INTO Comentarios (ComentarioID, PerfumeID, UsuarioID, Comentario, Rating, FechaPublicacion)
 //    VALUES (@ID, @PerfumeID, @UsuarioID, @Comentario, @Rating, @FechaPublicacion);
+//GO
+
+
+//CREATE PROCEDURE InsertarPerfume
+//    @Nombre NVARCHAR(255),
+//    @Marca NVARCHAR(255),
+//    @Modelo NVARCHAR(255),
+//    @PrecioMedio INT,
+//    @Imagen NVARCHAR(255)
+//AS
+//    DECLARE @ID INT 
+//	SELECT @ID = MAX(PerfumeID) + 1 FROM Perfumes
+//	INSERT INTO Perfumes 
+//    VALUES (@ID, @Nombre, @Marca, @Modelo, 0, @PrecioMedio, 0, @Imagen);
+//GO
+
+
+
+
+//ALTER PROCEDURE SP_ELIMINARPERFUME
+//(@ID INT)
+//AS
+//	DELETE FROM PerfumeNotaOlor WHERE PerfumeID = @ID;
+//DELETE FROM Perfumes WHERE PerfumeID = @ID;
 //GO
 #endregion
 
@@ -147,6 +171,17 @@ namespace MvcProyectoPerfumes.Repositories
             return perfume;
         }
 
+        public List<Comentario> ObtenerComentariosPerfume(int idPerfume)
+        {
+            var consulta = from datos in perfumesContext.Comentarios 
+                           where datos.PerfumeId == idPerfume
+                           select datos;
+           
+            return consulta.ToList();
+
+        }
+
+
         //PAGINACION
         public async Task<int> GetNumeroPerfumesAsync()
         {
@@ -184,6 +219,27 @@ namespace MvcProyectoPerfumes.Repositories
             var consulta = this.perfumesContext.Database.ExecuteSqlRaw(sql, perfumeIdParam, usuarioIdParam, comentarioParam, ratingParam, fechaPublicacionParam);
         }
 
+        public void InsertarPerfume (string nombre, string marca, string modelo, int precioMedio, string imagen)
+        {
+            string sql = "InsertarPerfume @Nombre, @Marca, @Modelo, @PrecioMedio, @Imagen";
+
+            var paramNombre = new SqlParameter("@Nombre", nombre);
+            var paramMarca = new SqlParameter("@Marca", marca);
+            var paramModelo = new SqlParameter("@Modelo", modelo);
+            var paramPrecioMedio = new SqlParameter("@PrecioMedio", precioMedio);
+            var paramImagen = new SqlParameter("@Imagen", imagen);
+
+            var consulta = this.perfumesContext.Database.ExecuteSqlRaw(sql, paramNombre, paramMarca, paramModelo, paramPrecioMedio, paramImagen);
+        }
+
+        public void EliminarPerfume(int idPerfume)
+        {
+            string sql = "SP_ELIMINARPERFUME @ID";
+
+            SqlParameter paramId = new SqlParameter("@ID", idPerfume);
+
+            var consulta = this.perfumesContext.Database.ExecuteSqlRaw(sql, paramId);
+        }
 
     }
 }

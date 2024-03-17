@@ -1,0 +1,45 @@
+﻿@model List<Perfume>
+
+@{
+    ViewBag.Title = "Lista de Perfumes";
+}
+
+<h2>Lista de Perfumes</h2>
+<a asp-controller="Perfumes"
+   asp-action="InsertarPerfume"
+   class="btn btn-outline-warning">
+    Insertar perfume
+</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Precio Medio</th>
+            <th>Imagen</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var perfume in Model)
+        {
+            <tr>
+                <td><img src="@Url.Content("~/images/Perfumes/" + perfume.Imagen)" alt="@perfume.Nombre" style="max-width: 50px;" /></td>
+                <td>@perfume.Nombre</td>
+                <td>@perfume.Marca</td>
+                <td>@perfume.Modelo</td>
+                <td>@perfume.PrecioMedio</td>
+                <td>
+                    <a asp-controller="Perfumes"
+                       asp-action="EliminarPerfume"
+                       asp-route-idPerfume = "@perfume.IdPerfume"
+                       class="btn btn-outline-warning">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

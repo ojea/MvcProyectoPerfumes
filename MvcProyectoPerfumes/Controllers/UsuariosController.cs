@@ -64,7 +64,7 @@ namespace MvcCoreCryptography.Controllers
             else
             {
                 HttpContext.Session.SetObject("USUARIO", usuario);
-                return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
+                return RedirectToAction("Index", "Perfumes");
             }
 
         }
@@ -116,13 +116,13 @@ namespace MvcCoreCryptography.Controllers
 
             Usuario user = this.repo.ActualizarInfoUsuario(id, nombre, email, fileName);
 
-            return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
+            return RedirectToAction("Index", "Perfumes");
         }
 
         public IActionResult CerrarSesion()
         {
             HttpContext.Session.Remove("USUARIO");
-            return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
+            return RedirectToAction("Index", "Perfumes");
         }
 
         public IActionResult CambiarContrasena()
@@ -166,7 +166,7 @@ namespace MvcCoreCryptography.Controllers
             this.repo.UpdatePicture(id, fileName);
 
             ViewData["MENSAJE"] = "subido en " + path;
-            return RedirectToAction("PaginarGrupoPerfumes", "Perfumes");
+            return RedirectToAction("Index", "Perfumes");
         }
 
     }

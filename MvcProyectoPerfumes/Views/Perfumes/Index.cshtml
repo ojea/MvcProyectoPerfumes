@@ -4,53 +4,74 @@
     ViewData["Title"] = "Index";
 }
 
-<form method="get" action="@Url.Action("Index", "Perfumes")">
-    <div class="container">
-        <!-- Filtro de búsqueda por marca -->
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="marca">Buscar por marca:</label>
-                    <select class="form-control" id="marca" name="marcaSeleccionada">
-                        <option value="">Todas las marcas</option>
-                        @foreach (var marca in Model.MarcasDisponibles)
-                        {
-                            <option value="@marca">@marca</option>
-                        }
-                    </select>
+<div class="container">
+
+    <!-- Encabezado -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form method="get" action="@Url.Action("Index", "Perfumes")">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="marca">Buscar por marca:</label>
+                            <select class="form-control" id="marca" name="marcaSeleccionada">
+                                <option value="">Todas las marcas</option>
+                                @foreach (var marca in Model.MarcasDisponibles)
+                                {
+                                    <option value="@marca">@marca</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="searchString">Buscar por nombre:</label>
+                            <input type="text" class="form-control" id="searchString" name="searchString" value="@Model.SearchString">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="searchString">Buscar por nombre:</label>
-                    <input type="text" class="form-control" id="searchString" name="searchString" value="@Model.SearchString">
+                <div class="row">
+                    <div class="col-md-6 offset-md-6">
+                        <button type="submit" class="btn btn-outline-info">Filtrar</button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <button type="submit" class="btn btn-outline-info">Filtrar</button>
+            </form>
+        </div>
+        <div class="col-md-6 text-right">
+            @if (Model.Usuario != null)
+            {
+                <img src="~/images/users/@Model.Usuario.Imagen" style="width:50px; height:50px" />
+                <a class="btn btn-outline-info" asp-controller="Usuarios" asp-action="EditarPerfil" asp-route-id="@Model.Usuario.IdUsuario">Mi perfil</a>
+                <hr />
+            }
+            else
+            {
+                <a class="btn btn-outline-info" asp-area="" asp-controller="Usuarios" asp-action="Login">Login</a>
+                <a class="btn btn-outline-info" asp-area="" asp-controller="Usuarios" asp-action="Register">Register User</a>
+            }
+        </div>
+    </div>
+
+    <!-- Cuerpo -->
+<div class="row">
+    @foreach (var item in Model.Perfumes)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card mx-auto" style="width: 18rem; margin-left: 10px; margin-right: 10px;">
+                <img src="~/images/Perfumes/@Html.DisplayFor(modelItem => item.Imagen)" class="card-img-top mx-auto" alt="Perfume Image" style="width:80px; height:100px;">
+                <div class="card-body text-center">
+                    <p class="card-text">Nombre: @Html.DisplayFor(modelItem => item.Nombre)</p>
+                    <p class="card-text">Marca: @Html.DisplayFor(modelItem => item.Marca)</p>
+                    <hr />
+                    <a href="@Url.Action("Detalles", "Perfumes", new { id = item.IdPerfume })" class="btn btn-secondary">Ver Detalles</a>
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div>
-                @if (Model.Usuario != null)
-                {
-                    <img src="~/images/users/@Model.Usuario.Imagen" style="width:50px; height:50px" />
+    }
+</div>
 
-                    <a class="btn btn-outline-info" asp-controller="Usuarios" asp-action="EditarPerfil" asp-route-id="@Model.Usuario.IdUsuario">Mi perfil</a>
-                    <hr />
-                }
-                else
-                {
-                    <a class="btn btn-outline-info" asp-area="" asp-controller="Usuarios" asp-action="Login">Login</a>
-                    <a class="btn btn-outline-info" asp-area="" asp-controller="Usuarios" asp-action="Register">Register User</a>
-                }
-            </div>
-    </div>
-</form>
-
-
-    <!-- Paginación -->
-    <nav aria-label="Page navigation example">
+    <!-- Pie de página -->
+    <nav aria-label="Page navigation example" class="mt-4">
         <ul class="pagination justify-content-center">
             @if (Model.PaginationInfo != null)
             {
@@ -76,23 +97,22 @@
         </ul>
     </nav>
 
-
-
-    <!-- Sección de Cards -->
-    <div class="row">
-        @foreach (var item in Model.Perfumes)
-        {
-            <div class="col-md-3 mb-4">
-                <div class="card mx-auto" style="width: 18rem; margin-left: 10px; margin-right: 10px;">
-                    <img src="~/images/@Html.DisplayFor(modelItem => item.Imagen)" class="card-img-top mx-auto" alt="Perfume Image" style="width:100px; height:100px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Id Perfume: @Html.DisplayFor(modelItem => item.IdPerfume)</h5>
-                        <p class="card-text">Nombre: @Html.DisplayFor(modelItem => item.Nombre)</p>
-                        <p class="card-text">Marca: @Html.DisplayFor(modelItem => item.Marca)</p>
-                        <a href="@Url.Action("Detalles", "Perfumes", new { id = item.IdPerfume })" class="btn btn-secondary">Ver Detalles</a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
