@@ -1,97 +1,155 @@
 ﻿@model Perfume
+<br />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Perfume</title>
+</head>
 
-<h1>Detalles del Perfume</h1>
-
-<a asp-controller="Perfumes"
-   asp-action="Index"
-   class="btn btn-outline-info">
-    Volver
-</a>
-
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center">Detalles del Perfume</h1>
+            <a asp-controller="Perfumes" asp-action="Index" class="btn btn-outline-dark btn-sm d-block mx-5 mt-3">Volver</a>
+        </div>
+    </div>
+</div>
+<hr />
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     Usuario user = ViewData["USER"] as Usuario;
     bool usuario = (bool)ViewData["USUARIO"];
-    List <Comentario> comentarios = ViewData["COMENTARIOS"] as List<Comentario>;
+    List<Comentario> comentarios = ViewData["COMENTARIOS"] as List<Comentario>;
 }
 
 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card border-0">
+                <div class="card-body text-center">
+                    <!-- Imagen del perfume -->
+                    <img style="height:400px; width: 320px" src="~/images/Perfumes/@Model.Imagen" class="img-fluid">
+                    <!-- Botones -->
+                    <br />
+                    <br />
+                    <div>
+                        @if (usuario == true)
+                        {
+                            <a asp-controller="Perfumes"
+                               asp-action="Detalles"
+                               asp-route-idfav="@Model.IdPerfume"
+                               class="btn btn-outline-danger">
+                                Favoritos❤
+                            </a>
 
-@if (usuario == true)
-{
-    <a asp-controller="Perfumes"
-       asp-action="Detalles"
-       asp-route-idfav="@Model.IdPerfume"
-       class="btn btn-outline-danger">
-        Favoritos❤
-    </a>
-}
-
-@if (usuario == true)
-{
-    <a asp-controller="Perfumes"
-       asp-action="Detalles"
-       asp-route-idColeccion="@Model.IdPerfume"
-       class="btn btn-outline-info">
-        La tengo
-    </a>
-}
-
-@if (usuario == true)
-{
-    <a asp-controller="Perfumes"
-       asp-action="Detalles"
-       asp-route-quieroOler="@Model.IdPerfume"
-       class="btn btn-outline-warning">
-        Quiero probarla
-    </a>
-}
+                        }
 
 
-<div class="d-flex justify-content-center">
-    <div class="card" style="max-width: 600px;">
-        <div class="card-body">
-            <h2 class="card-title">@Model.Nombre</h2>
-            <p class="card-text">Marca: @Model.Marca</p>
-            <!-- Otras propiedades del perfume -->
-            <h3>Notas Olfativas:</h3>
-            <ul class="list-group list-group-flush">
-                @foreach (var notaOlor in Model.NotasOlfativas)
-                {
-                    <li class="list-group-item">@notaOlor.NombreNota <img src="~/images/@notaOlor.Imagen" style="height:50px; width: 60px" /></li>
-                }
-            </ul>
-            <!-- Muestra los comentarios -->
-            <h2>Comentarios:</h2>
-            @if (usuario == true)
-            {
-                <a asp-controller="Perfumes"
-                   asp-action="AgregarComentario"
-                   asp-route-idperfume="@Model.IdPerfume"
-                   class="btn btn-outline-danger">
-                    Agregar comentario
-                </a>
-            }
-            @if (comentarios != null && comentarios.Any())
-            {
-                <ul class="list-group list-group-flush">
-                    @foreach (Comentario comentario in comentarios)
+                        @if (usuario == true)
+                        {
+                            <a asp-controller="Perfumes"
+                               asp-action="Detalles"
+                               asp-route-idColeccion="@Model.IdPerfume"
+                               class="btn btn-outline-info">
+                                La tengo
+                            </a>
+                        }
+
+                        @if (usuario == true)
+                        {
+                            <a asp-controller="Perfumes"
+                               asp-action="Detalles"
+                               asp-route-quieroOler="@Model.IdPerfume"
+                               class="btn btn-outline-warning">
+                                Quiero probarla
+                            </a>
+                        }
+                        else
+                        {
+                            <p style="color:darkred">Inicia sesion para guardar favoritos</p>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card border-0">
+                <div class="card-body">
+                    <!-- Contenido del perfume -->
+                    <h2 class="card-title">@Model.Nombre</h2>
+                    <h5 class="card-text">Marca: @Model.Marca</h5>
+                    <div class="rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= @Model.Valoracion)
+                            {
+                                <span class="star">&#9733;</span>
+                            }
+                            else
+                            {
+                                <span class="star">&#9734;</span>
+                            }
+                        }
+                    </div>
+                    <!-- Otras propiedades del perfume -->
+                    <h4>Notas Olfativas:</h4>
+                    @foreach (var notaOlor in Model.NotasOlfativas)
                     {
-                        <li class="list-group-item">
-                            <strong>@comentario.UsuarioId</strong>: @comentario.comentario
-                            <br />
-                            <small>Valoración: @comentario.Rating.ToString() estrellas</small>
-                            <br />
-                            <small>@comentario.FechaPublicacion.ToString("dd/MM/yyyy HH:mm:ss")</small>
-                        </li>
+                        <p class="list-group-item">@notaOlor.NombreNota <img src="~/images/@notaOlor.Imagen" style="height:50px; width: 60px" /></p>
                     }
-                </ul>
-            }
-            else
-            {
-                <p class="card-text">No hay comentarios aún.</p>
-            }
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+<div class="container">
+    <div class="header d-flex align-items-center justify-content-center mb-3">
+        <h2>Comentarios</h2>
+    </div>
+    <div class="text-center mt-3">
+        @if (usuario == true)
+        {
+            <a asp-controller="Perfumes"
+               asp-action="AgregarComentario"
+               asp-route-idperfume="@Model.IdPerfume"
+               class="btn btn-outline-dark">
+                Agregar comentario
+            </a>
+        }
+        else
+        {
+            <p style="color:darkred">Inicia sesion para comentar</p>
+        }
+    </div>
+    <br />
+    <div class="header d-flex align-items-center justify-content-center border">
+        @if (comentarios != null && comentarios.Any())
+        {
+            <ul class="list-group list-group-flush">
+                @foreach (Comentario comentario in comentarios)
+                {
+                    <li class="list-group-item">
+                        <strong>@comentario.UsuarioId</strong>: @comentario.comentario
+                        <br />
+                        <small>Valoración: @comentario.Rating.ToString() estrellas</small>
+                        <br />
+                        <small>@comentario.FechaPublicacion.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="card-text">No hay comentarios aún.</p>
+        }
+    </div>
+
+</div>
+
+
+
 

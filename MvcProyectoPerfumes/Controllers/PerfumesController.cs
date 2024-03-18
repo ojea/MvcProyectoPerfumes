@@ -81,6 +81,7 @@ namespace MvcProyectoPerfumes.Controllers
         }
         //DETALLES
 
+
         public IActionResult Detalles(int idPerfume, int? idfav, int? idColeccion, int? quieroOler)
         {
 
@@ -116,6 +117,7 @@ namespace MvcProyectoPerfumes.Controllers
                 // Verificar si el perfume ya está en la lista de favoritos
                 bool yaEnFavoritos = perfumesFav.Any(p => p.IdPerfume == idfav.Value);
 
+
                 if (!yaEnFavoritos)
                 {
                     Perfume perfume = repo.ObtenerPorId(idfav.Value);
@@ -124,8 +126,10 @@ namespace MvcProyectoPerfumes.Controllers
 
                     this.memoryCache.Set("FAV", perfumesFav);
                     return View(perfume);
-                }
+                } 
             }
+
+
             // Para el método con idColeccion
             else if (idColeccion != null)
             {
@@ -194,8 +198,10 @@ namespace MvcProyectoPerfumes.Controllers
                 }
 
                 perfume.NotasOlfativas = repo.ObtenerNotasOlfativasPorPerfumeId(idPerfume);
+
                 return View(perfume);
             }
+
         }
 
         public IActionResult EliminarFavoritos(int idperfume)

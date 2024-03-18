@@ -1,112 +1,5 @@
 ﻿ @model ModelIndex
 
-@*
-@{
-    ViewData["Title"] = "Index";
-}
-
-<div class="container">
-
-    <!-- Encabezado -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <form method="get" action="@Url.Action("Index", "Perfumes")">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="marca">Buscar por marca:</label>
-                            <select class="form-control" id="marca" name="marcaSeleccionada">
-                                <option value="">Todas las marcas</option>
-                                @foreach (var marca in Model.MarcasDisponibles)
-                                {
-                                    <option value="@marca">@marca</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="searchString">Buscar por nombre:</label>
-                            <input type="text" class="form-control" id="searchString" name="searchString" value="@Model.SearchString">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 offset-md-6">
-                        <button type="submit" class="btn btn-outline-info">Filtrar</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6 text-right">
-            @if (Model.Usuario != null)
-            {
-                <img src="~/images/users/@Model.Usuario.Imagen" style="width:50px; height:50px" />
-                <a class="btn btn-outline-info" asp-controller="Usuarios" asp-action="EditarPerfil" asp-route-id="@Model.Usuario.IdUsuario">Mi perfil</a>
-                <hr />
-            }
-            else
-            {
-                <a class="btn btn-outline-info" asp-area="" asp-controller="Usuarios" asp-action="Login">Login</a>
-                <a class="btn btn-outline-info" asp-area="" asp-controller="Usuarios" asp-action="Register">Register User</a>
-            }
-        </div>
-    </div>
-
-    <!-- Cuerpo -->
-<div class="row">
-    @foreach (var item in Model.Perfumes)
-    {
-        <div class="col-md-3 mb-4">
-            <div class="card mx-auto" style="width: 18rem; margin-left: 10px; margin-right: 10px;">
-                <img src="~/images/Perfumes/@Html.DisplayFor(modelItem => item.Imagen)" class="card-img-top mx-auto" alt="Perfume Image" style="width:80px; height:100px;">
-                <div class="card-body text-center">
-                    <p class="card-text">Nombre: @Html.DisplayFor(modelItem => item.Nombre)</p>
-                    <p class="card-text">Marca: @Html.DisplayFor(modelItem => item.Marca)</p>
-                    <hr />
-                    <a href="@Url.Action("Detalles", "Perfumes", new { id = item.IdPerfume })" class="btn btn-secondary">Ver Detalles</a>
-                </div>
-            </div>
-        </div>
-    }
-</div>
-
-    <!-- Pie de página -->
-    <nav aria-label="Page navigation example" class="mt-4">
-        <ul class="pagination justify-content-center">
-            @if (Model.PaginationInfo != null)
-            {
-                <li class="page-item @(Model.PaginationInfo.CurrentPage == 1 ? "disabled" : "")">
-                    <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=1">First</a>
-                </li>
-                <li class="page-item @(Model.PaginationInfo.CurrentPage == 1 ? "disabled" : "")">
-                    <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=@(Model.PaginationInfo.CurrentPage - 1)">Previous</a>
-                </li>
-                @for (int i = 1; i <= Model.PaginationInfo.GetTotalPages(); i++)
-                {
-                    <li class="page-item @(Model.PaginationInfo.CurrentPage == i ? "active" : "")">
-                        <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=@i">@i</a>
-                    </li>
-                }
-                <li class="page-item @(Model.PaginationInfo.CurrentPage == Model.PaginationInfo.GetTotalPages() ? "disabled" : "")">
-                    <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=@(Model.PaginationInfo.CurrentPage + 1)">Next</a>
-                </li>
-                <li class="page-item @(Model.PaginationInfo.CurrentPage == Model.PaginationInfo.GetTotalPages() ? "disabled" : "")">
-                    <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=@Model.PaginationInfo.GetTotalPages()">Last</a>
-                </li>
-            }
-        </ul>
-    </nav>
-
-</div>
- *@
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -114,7 +7,7 @@
     <meta name="author" content="" />
     <title>AROMÁGICO</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="~/images/logofinal.png" />
+    <link rel="icon" type="image/x-icon" src="~/images/logo-sin-fondo.png"/>
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -127,7 +20,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="#page-top"><img src="~/images/logofinal.png" /></a>
+            <a class="navbar-brand" href="#page-top"><img src="~/images/logo-sin-fondo.png" style="width:50px; height:50px;"/></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars ms-1"></i>
@@ -168,8 +61,8 @@
     <section class="page-section bg-light" id="portfolio">
         <div class="container">
             <div class="text-center">
-                <h2 class="section-heading text-uppercase">Portfolio</h2>
-                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                <h2 class="section-heading text-uppercase">Perfumes</h2>
+                <h3 class="section-subheading text-muted">Echa un vistazo a todos los perfumes</h3>
             </div>
             <div class="row">
                 @foreach (var item in Model.Perfumes)
@@ -193,6 +86,31 @@
             </div>
         </div>
     </section>
+    <nav aria-label="Page navigation example" class="mt-4">
+        <ul class="pagination justify-content-center">
+            @if (Model.PaginationInfo != null)
+            {
+                <li class="page-item @(Model.PaginationInfo.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=1">First</a>
+                </li>
+                <li class="page-item @(Model.PaginationInfo.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=@(Model.PaginationInfo.CurrentPage - 1)">Previous</a>
+                </li>
+                @for (int i = 1; i <= Model.PaginationInfo.GetTotalPages(); i++)
+                {
+                    <li class="page-item @(Model.PaginationInfo.CurrentPage == i ? "active" : "")">
+                        <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(Model.PaginationInfo.CurrentPage == Model.PaginationInfo.GetTotalPages() ? "disabled" : "")">
+                    <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=@(Model.PaginationInfo.CurrentPage + 1)">Next</a>
+                </li>
+                <li class="page-item @(Model.PaginationInfo.CurrentPage == Model.PaginationInfo.GetTotalPages() ? "disabled" : "")">
+                    <a class="page-link" href="?marcaSeleccionada=@Model.MarcaSeleccionada&searchString=@Model.SearchString&page=@Model.PaginationInfo.GetTotalPages()">Last</a>
+                </li>
+            }
+        </ul>
+    </nav>
 
 
     <!-- Bootstrap core JS-->

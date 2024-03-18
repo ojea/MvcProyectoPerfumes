@@ -6,29 +6,48 @@
     List<Perfume> quieroOler = memoryCache.Get<List<Perfume>>("QUIEROPROBAR");
 }
 
-<a asp-controller="Perfumes"
-   asp-action="Index"
-   class="btn btn-outline-info">
-    Volver
-</a>
+<html lang="en">
+<head>
+    <br>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del usuario</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h1>Detalles del Perfume</h1>
+                <a asp-controller="Perfumes"
+                   asp-action="Index"
+                   class="btn btn-outline-dark">
+                    Volver
+                </a>
+                @if (Model.Rol == 1)
+                {
+                    <a asp-controller="Perfumes"
+                       asp-action="ListaPerfumes"
+                       class="btn btn-outline-info">
+                        Insertar perfume
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<hr />
 
-@if (Model.Rol == 1)
-{
-    <a asp-controller="Perfumes"
-       asp-action="ListaPerfumes"
-       class="btn btn-outline-warning">
-        Insertar perfume
-    </a>
-}
 
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <img src="~/images/users/@Model.Imagen" style="width:300px; height:300px" />
+            <!-- Agregamos un identificador único a la imagen -->
+            <img id="imagenPerfil" src="~/images/users/@Model.Imagen" style="width:300px; height:300px; cursor:pointer" onclick="document.getElementById('inputImagen').click();" />
             <br />
             <br />
-            <a class="btn btn-warning" asp-controller="Usuarios" asp-action="CambiarContrasena">Cambiar contraseña</a>
-            <a class="btn btn-danger" asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar sesión</a>
+            <a class="btn btn-outline-warning" asp-controller="Usuarios" asp-action="CambiarContrasena">Cambiar contraseña</a>
+            <a class="btn btn-outline-danger" asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar sesión</a>
         </div>
         <div class="col-md-6">
             <form method="post" enctype="multipart/form-data">
@@ -38,78 +57,97 @@
                 <label>Email:</label>
                 <input type="text" name="email" class="form-control" value="@Model.Email" />
                 <br />
-                <input type="file" name="imagen" class="form-control" value="@Model.Imagen" />
+                <!-- Este input estará oculto, se activará al hacer clic en la imagen -->
+                <input id="inputImagen" type="file" name="imagen" class="form-control" style="display:none;" />
                 <br />
-                <button class="btn btn-info">Actualizar información</button>
+                <button class="btn btn-outline-info">Actualizar información</button>
             </form>
         </div>
     </div>
 </div>
-
-@if (favoritos != null)
-{
-    <h1>Mis favoritos</h1>
-    <hr />
-    @foreach (Perfume perfume in favoritos)
+<br />
+<div class="container text-center">
+    @if (favoritos != null)
     {
-        <div class="card">
-            <a asp-controller="Perfumes"
-               asp-action="Detalles"
-               asp-route-id="@perfume.IdPerfume">
-                <img src="~/images/Perfumes/@perfume.Imagen" style="width:50px; height:50px">
-            </a>
-            <a asp-controller="Perfumes"
-               asp-action="EliminarFavoritos"
-               asp-route-idperfume="@perfume.IdPerfume">
-                ❌
-            </a>
-        </div>
-
-    }
-
-}
-
-@if (coleccion != null)
-{
-    <h1>Mi colécción</h1>
-    <hr />
-    @foreach (Perfume perfume in coleccion)
-    {
-        <div class="card">
-            <a asp-controller="Perfumes"
-               asp-action="Detalles"
-               asp-route-id="@perfume.IdPerfume">
-                <img src="~/images/Perfumes/@perfume.Imagen" style="width:50px; height:50px">
-            </a>
-            <a asp-controller="Perfumes"
-               asp-action="EliminarDeColeccion"
-               asp-route-idperfume="@perfume.IdPerfume">
-                ❌
-            </a>
+        <h1>Mis favoritos</h1>
+        <hr />
+        <div class="d-flex flex-row flex-wrap justify-content-center">
+            @foreach (Perfume perfume in favoritos)
+            {
+                <div class="card mr-2 mb-2 p-2 position-relative" style="border: none;">
+                    <a asp-controller="Perfumes"
+                       asp-action="Detalles"
+                       asp-route-id="@perfume.IdPerfume">
+                        <img src="~/images/Perfumes/@perfume.Imagen" style="width:40px; height:50px">
+                    </a>
+                    <a asp-controller="Perfumes"
+                       asp-action="EliminarFavoritos"
+                       asp-route-idperfume="@perfume.IdPerfume"
+                       class="position-absolute start-50 translate-middle-x"
+                       style="bottom: -20px; transform: translateX(-50%);">
+                        ❌
+                    </a>
+                </div>
+            }
         </div>
     }
-
-}
-
-@if (quieroOler != null)
-{
-    <h1>Quiero probarla</h1>
-    <hr />
-    @foreach (Perfume perfume in quieroOler)
+    <br />
+    @if (coleccion != null)
     {
-        <div class="card" style="width: 18rem;">
-            <a asp-controller="Perfumes"
-               asp-action="Detalles"
-               asp-route-id="@perfume.IdPerfume">
-                <img src="~/images/Perfumes/@perfume.Imagen" style="width:50px; height:50px">
-            </a>
-            <a asp-controller="Perfumes"
-               asp-action="EliminarDeProbar"
-               asp-route-idperfume="@perfume.IdPerfume">
-                ❌
-            </a>
+        <h1>Mi colección</h1>
+        <hr />
+        <div class="d-flex flex-row flex-wrap justify-content-center">
+            @foreach (Perfume perfume in coleccion)
+            {
+                <div class="card mr-2 mb-2 p-2 position-relative" style="border: none;">
+                    <a asp-controller="Perfumes"
+                       asp-action="Detalles"
+                       asp-route-id="@perfume.IdPerfume">
+                        <img src="~/images/Perfumes/@perfume.Imagen" style="width:40px; height:50px">
+                    </a>
+                    <a asp-controller="Perfumes"
+                       asp-action="EliminarDeColeccion"
+                       asp-route-idperfume="@perfume.IdPerfume"
+                       class="position-absolute start-50 translate-middle-x"
+                       style="bottom: -20px; transform: translateX(-50%);">
+                        ❌
+                    </a>
+                </div>
+            }
         </div>
     }
-}
+    <br />
+    @if (quieroOler != null)
+    {
+        <h1>Quiero probarla</h1>
+        <hr />
+        <div class="d-flex flex-row flex-wrap justify-content-center">
+            @foreach (Perfume perfume in quieroOler)
+            {
+                <div class="card mr-2 mb-2 p-2 position-relative" style="border: none;">
+                    <a asp-controller="Perfumes"
+                       asp-action="Detalles"
+                       asp-route-id="@perfume.IdPerfume">
+                        <img src="~/images/Perfumes/@perfume.Imagen" style="width:50px; height:50px">
+                    </a>
+                    <a asp-controller="Perfumes"
+                       asp-action="EliminarDeProbar"
+                       asp-route-idperfume="@perfume.IdPerfume"
+                       class="position-absolute start-50 translate-middle-x"
+                       style="bottom: -20px; transform: translateX(-50%);">
+                        ❌
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
 
 
+
+<script>
+    // Función para simular clic en el input de tipo archivo al hacer clic en la imagen
+    document.getElementById('imagenPerfil').addEventListener('click', function () {
+        document.getElementById('inputImagen').click();
+    });
+</script>
