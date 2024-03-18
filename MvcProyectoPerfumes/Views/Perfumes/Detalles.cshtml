@@ -9,6 +9,8 @@
 </a>
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Usuario user = ViewData["USER"] as Usuario;
     bool usuario = (bool)ViewData["USUARIO"];
     List <Comentario> comentarios = ViewData["COMENTARIOS"] as List<Comentario>;
 }
@@ -46,48 +48,50 @@
 }
 
 
-<div>
-    <h2>@Model.Nombre</h2>
-    <p>Marca: @Model.Marca</p>
-    <!-- Otras propiedades del perfume -->
-    <h3>Notas Olfativas:</h3>
-    <ul>
-        @foreach (var notaOlor in Model.NotasOlfativas)
-        {
-            <li>@notaOlor.NombreNota</li>
-            <li><img src="~/images/@notaOlor.Imagen" style="height:50px; width; 60px" /></li>
-        }
-    </ul>
-    <!-- Muestra los comentarios -->
-    <h2>Comentarios:</h2>
-    @if (usuario == true)
-    {
-        <a asp-controller="Perfumes"
-           asp-action="AgregarComentario"
-           asp-route-idperfume="@Model.IdPerfume"
-           class="btn btn-outline-danger">
-            Agregar comentario
-        </a>
-
-    }
-    @if (comentarios != null && comentarios.Any())
-    {
-        <ul>
-            @foreach ( Comentario comentario in comentarios)
+<div class="d-flex justify-content-center">
+    <div class="card" style="max-width: 600px;">
+        <div class="card-body">
+            <h2 class="card-title">@Model.Nombre</h2>
+            <p class="card-text">Marca: @Model.Marca</p>
+            <!-- Otras propiedades del perfume -->
+            <h3>Notas Olfativas:</h3>
+            <ul class="list-group list-group-flush">
+                @foreach (var notaOlor in Model.NotasOlfativas)
+                {
+                    <li class="list-group-item">@notaOlor.NombreNota <img src="~/images/@notaOlor.Imagen" style="height:50px; width: 60px" /></li>
+                }
+            </ul>
+            <!-- Muestra los comentarios -->
+            <h2>Comentarios:</h2>
+            @if (usuario == true)
             {
-                <li>
-                    <strong>@comentario.UsuarioId</strong>: @comentario.comentario
-                    <br />
-                    <small>Valoración: @comentario.Rating.ToString() estrellas</small>
-                    <br />
-                    <small>@comentario.FechaPublicacion.ToString("dd/MM/yyyy HH:mm:ss")</small>
-                </li>
+                <a asp-controller="Perfumes"
+                   asp-action="AgregarComentario"
+                   asp-route-idperfume="@Model.IdPerfume"
+                   class="btn btn-outline-danger">
+                    Agregar comentario
+                </a>
             }
-        </ul>
-    }
-    else
-    {
-        <p>No hay comentarios aún.</p>
-    }
+            @if (comentarios != null && comentarios.Any())
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (Comentario comentario in comentarios)
+                    {
+                        <li class="list-group-item">
+                            <strong>@comentario.UsuarioId</strong>: @comentario.comentario
+                            <br />
+                            <small>Valoración: @comentario.Rating.ToString() estrellas</small>
+                            <br />
+                            <small>@comentario.FechaPublicacion.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="card-text">No hay comentarios aún.</p>
+            }
+        </div>
+    </div>
 </div>
 

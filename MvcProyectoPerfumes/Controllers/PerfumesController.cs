@@ -81,14 +81,14 @@ namespace MvcProyectoPerfumes.Controllers
         }
         //DETALLES
 
-        [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Client)]
-        public IActionResult Detalles(int id, int? idfav, int? idColeccion, int? quieroOler)
+        public IActionResult Detalles(int idPerfume, int? idfav, int? idColeccion, int? quieroOler)
         {
 
             if (HttpContext.Session.GetObject<Usuario>("USUARIO") != null)
             {
                 Usuario usuario = HttpContext.Session.GetObject<Usuario>("USUARIO");
                 int rol = usuario.Rol;
+                ViewData["USER"] = usuario;
                 ViewData["ROL"] = rol;
                 ViewData["USUARIO"] = true;
             }
@@ -97,7 +97,7 @@ namespace MvcProyectoPerfumes.Controllers
                 ViewData["USUARIO"] = false;
             }
 
-            List<Comentario> comentarios = this.repo.ObtenerComentariosPerfume(id);
+            List<Comentario> comentarios = this.repo.ObtenerComentariosPerfume(idPerfume);
             ViewData["COMENTARIOS"] = comentarios;
 
             if (idfav != null)
@@ -186,14 +186,14 @@ namespace MvcProyectoPerfumes.Controllers
             }
 
             {
-                Perfume perfume = repo.ObtenerPorId(id);
+                Perfume perfume = repo.ObtenerPorId(idPerfume);
 
                 if (perfume == null)
                 {
                     return NotFound();
                 }
 
-                perfume.NotasOlfativas = repo.ObtenerNotasOlfativasPorPerfumeId(id);
+                perfume.NotasOlfativas = repo.ObtenerNotasOlfativasPorPerfumeId(idPerfume);
                 return View(perfume);
             }
         }
@@ -308,6 +308,7 @@ namespace MvcProyectoPerfumes.Controllers
             Usuario usuario = HttpContext.Session.GetObject<Usuario>("USUARIO");
             int idUsuario = usuario.IdUsuario;
             ViewData["IDUSUARIO"] = idUsuario;
+             
 
             ViewData["IDPERFUME"] = idperfume;
             return View();
