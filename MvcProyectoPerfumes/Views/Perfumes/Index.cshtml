@@ -56,6 +56,44 @@
             <div class="masthead-heading text-uppercase">Aromágico</div>
         </div>
     </header>
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="row mb-4 justify-content-center">
+            <!-- Agrega la clase justify-content-center para centrar horizontalmente -->
+            <div class="col-md-6">
+                <form method="get" action="@Url.Action("Index", "Perfumes")">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="marca">Buscar por marca:</label>
+                                <select class="form-control" id="marca" name="marcaSeleccionada">
+                                    <option value="">Todas las marcas</option>
+                                    @foreach (var marca in Model.MarcasDisponibles)
+                                    {
+                                        <option value="@marca">@marca</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="searchString">Buscar por nombre:</label>
+                                <div class="input-group">
+                                    <!-- Agrupa el campo de búsqueda y el botón -->
+                                    <input type="text" class="form-control" id="searchString" name="searchString" value="@Model.SearchString">
+                                    <div class="input-group-append">
+                                        <!-- Grupo de elementos después del campo -->
+                                        <button type="submit" class="btn btn-outline-dark">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Portfolio Grid-->
     <section class="page-section bg-light" id="portfolio">
@@ -77,7 +115,7 @@
                                 <img class="img-fluid" src="~/images/Perfumes/@Html.DisplayFor(modelItem => item.Imagen)"/>
                             </a>
                             <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Nombre: @Html.DisplayFor(modelItem => item.Nombre)</div>
+                                <div class="portfolio-caption-heading">@Html.DisplayFor(modelItem => item.Nombre)</div>
                                 <div class="portfolio-caption-subheading text-muted">Marca: @Html.DisplayFor(modelItem => item.Marca)</div>
                             </div>
                         </div>

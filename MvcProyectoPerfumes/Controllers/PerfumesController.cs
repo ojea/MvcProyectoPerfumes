@@ -354,7 +354,7 @@ namespace MvcProyectoPerfumes.Controllers
                 await imagen.CopyToAsync(stream);
             }
             repo.InsertarPerfume(nombre, marca, modelo, precioMedio, fileName);
-            return View();
+            return RedirectToAction("ListaPerfumes", "Perfumes");
         }
 
         public IActionResult EliminarPerfume(int idperfume)
