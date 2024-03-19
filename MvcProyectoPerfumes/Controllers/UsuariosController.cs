@@ -38,7 +38,8 @@ namespace MvcCoreCryptography.Controllers
             //https://localhost:7927/Usuarios/ActivateUser/TOKEN???
             serverUrl = serverUrl + "/Usuarios/ActivateUser?token=" + user.TokenMail;
             string mensaje = "<h3>Usuario registrado</h3>";
-            mensaje += "<p>Debe activar su cuenta con nosotros pulsando el siguiente enlace</p>";
+            mensaje += "<p><strong>A R O M A G I C O</strong></p>";
+            mensaje += "<p>Pulse el siguiente enlace para activar su cuenta</p>";
             mensaje += "<a href='" + serverUrl + "'>" + serverUrl + "</a>";
             mensaje += "<p>Muchas gracias</p>";
             await this.helperMails.SendMailAsync(email, "Registro Usuario", mensaje);

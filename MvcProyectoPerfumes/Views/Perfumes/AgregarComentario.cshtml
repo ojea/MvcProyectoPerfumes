@@ -3,23 +3,28 @@
     int idPerfume = int.Parse(ViewData["IDPERFUME"].ToString());
 
 }
-<h2>Insertar comentario:</h2>
-<form method="post">
-    <input type="hidden" name="perfumeID" value="@idPerfume" class="form-control" />
-    <input type="hidden" name="usuarioID" value="@idUsuario" class="form-control" />
-    <input type="text" name="comentario" class="form-control" />
+<div class="centered-form">
+    <div class="form-container">
+        <h2>Insertar comentario:</h2>
+        <form method="post">
+            <input type="hidden" name="perfumeID" value="@idPerfume" class="form-control" />
+            <input type="hidden" name="usuarioID" value="@idUsuario" class="form-control" />
+            <textarea  rows="5" name="comentario" class="form-control"></textarea>
 
-    <!-- Agrega el campo de valoración -->
-    <div>
-        <label for="rating">Valoración:</label>
-        <select name="rating" id="rating">
-            <option value="1">1 estrella</option>
-            <option value="2">2 estrellas</option>
-            <option value="3">3 estrellas</option>
-            <option value="4">4 estrellas</option>
-            <option value="5">5 estrellas</option>
-        </select>
+            <!-- Campo de valoración con estrellas -->
+            <div class="rating">
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5"></label>
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4"></label>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3"></label>
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2"></label>
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1"></label>
+            </div>
+            <button class="btn btn-outline-dark text-center">Publicar comentario</button>
+        </form>
     </div>
-
-    <button class="btn btn-outline-dark btn-block">Publicar comentario</button>
-</form>
+</div>
