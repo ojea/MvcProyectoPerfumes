@@ -56,43 +56,76 @@
             <div class="masthead-heading text-uppercase">Aromágico</div>
         </div>
     </header>
-    <div class="container">
-        <!-- Encabezado -->
-        <div class="row mb-4 justify-content-center">
-            <!-- Agrega la clase justify-content-center para centrar horizontalmente -->
-            <div class="col-md-6">
-                <form method="get" action="@Url.Action("Index", "Perfumes")">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="marca">Buscar por marca:</label>
-                                <select class="form-control" id="marca" name="marcaSeleccionada">
-                                    <option value="">Todas las marcas</option>
-                                    @foreach (var marca in Model.MarcasDisponibles)
-                                    {
-                                        <option value="@marca">@marca</option>
-                                    }
-                                </select>
+    
+    <section class="page-section bg-light" id="portfolio">
+        <div class="container">
+            <!-- Encabezado -->
+            <div class="row mb-4 justify-content-center">
+                <!-- Agrega la clase justify-content-center para centrar horizontalmente -->
+                <div class="col-md-6">
+                    <form method="get" action="@Url.Action("Index", "Perfumes")">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="marca">Buscar por marca:</label>
+                                    <select class="form-control" id="marca" name="marcaSeleccionada">
+                                        <option value="">Todas las marcas</option>
+                                        @foreach (var marca in Model.MarcasDisponibles)
+                                        {
+                                            <option value="@marca">@marca</option>
+                                        }
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="searchString">Buscar por nombre:</label>
-                                <div class="input-group">
-                                    <!-- Agrupa el campo de búsqueda y el botón -->
-                                    <input type="text" class="form-control" id="searchString" name="searchString" value="@Model.SearchString">
-                                    <div class="input-group-append">
-                                        <!-- Grupo de elementos después del campo -->
-                                        <button type="submit" class="btn btn-outline-dark">Buscar</button>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="searchString">Buscar por nombre:</label>
+                                    <div class="input-group">
+                                        <!-- Agrupa el campo de búsqueda y el botón -->
+                                        <input type="text" class="form-control" id="searchString" name="searchString" value="@Model.SearchString">
+                                        <div class="input-group-append">
+                                            <!-- Grupo de elementos después del campo -->
+                                            <button type="submit" class="btn btn-outline-dark ms-3">Buscar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                    <br />
+                    <br />
+                </div>
             </div>
         </div>
-    </div>
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Novedades(SON PRUEBAS)</h2>
+                <h3 class="section-subheading text-muted">Nuevos lanzamientos (el resto del proyecto esta igual)</h3>
+            </div>
+            <div class="row d-flex justify-content-center">
+                    <div class="col-md-3 mb-3">
+                        <!-- Portfolio item 1-->
+                        <div class="portfolio-item">
+                            <img src="~/images/scandalabsolu.gif" class="card-img-top" alt="Perfume" />
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">SCANDAL ABSOLU GENTLEMAN</div>
+                                <div class="portfolio-caption-subheading text-muted">Marca: Jean Paul Gaultier</div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-md-3 mb-3">
+                    <!-- Portfolio item 1-->
+                    <div class="portfolio-item">
+                        <img src="~/images/scandalabsolumujer.gif" class="card-img-top" alt="Perfume" />
+                        <div class="portfolio-caption">
+                            <div class="portfolio-caption-heading">SCANDAL ABSOLU MADAME</div>
+                            <div class="portfolio-caption-subheading text-muted">Marca: Jean Paul Gaultier</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     <!-- Portfolio Grid-->
